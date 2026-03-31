@@ -127,12 +127,12 @@ const CulinaryCard = ({ item, isCompact = false }) => {
                 </div>
 
                 <p className="text-body text-gray-600 dark:text-gray-400 mb-24 line-clamp-2 italic flex-1">
-                    {item.description || "Kelezatan autentik Yogyakarta yang melegenda."}
+                    {item.description || "Kelezatan autentik Kalimantan Selatan yang melegenda."}
                 </p>
 
                 <div className="flex items-center gap-8 text-small text-gray-500 dark:text-gray-500 font-medium mb-24">
                     <MapPin size={16} className="text-heritage-gold" />
-                    <span className="truncate">{item.location?.address || 'Yogyakarta'}</span>
+                    <span className="truncate">{item.location?.address || 'Kalimantan Selatan'}</span>
                 </div>
 
                 <Link to={`/culinary/${item._id}`} className="block">

@@ -73,7 +73,7 @@ const Explore = () => {
                                 Destinasi <span className="text-heritage-gold">Istimewa</span>
                             </h1>
                             <p className="max-w-2xl text-body opacity-80 leading-relaxed">
-                                Jelajahi keajaiban budaya, keindahan alam, dan saksi bisu sejarah yang menjadikan Yogyakarta sebagai jantung tradisi Pulau Jawa.
+                                Jelajahi keajaiban budaya, keindahan alam, dan saksi bisu sejarah yang menjadikan Kalimantan Selatan sebagai jantung tradisi Pulau Jawa.
                             </p>
                         </motion.div>
 

@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const PlaceSchema = new mongoose.Schema({
     name: { type: String, required: true },
     category: { type: String, required: true },
+    transport_type: { type: String, enum: ['Darat', 'Sungai'], default: 'Darat' },
+    district: { type: String, required: true },
     location: {
         lat: { type: Number, required: true },
         lng: { type: Number, required: true },

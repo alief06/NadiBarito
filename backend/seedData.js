@@ -7,155 +7,115 @@ const Culture = require('./models/Culture');
 
 const places = [
     {
-        name: 'Candi Borobudur',
-        category: 'Sejarah',
-        location: { lat: -7.607355, lng: 110.203804, address: 'Jl. Badrawati, Borobudur, Magelang' },
-        description: 'Candi Buddha terbesar di dunia dan Situs Warisan Dunia UNESCO. Dibangun pada abad ke-9, menampilkan 2.500 panel relief dan 500 patung Buddha.',
-        images: ['https://images.unsplash.com/photo-1596402184320-417d7178b2cd?auto=format&fit=crop&w=1200&q=80'],
+        name: 'Pasar Terapung Muara Kuin',
+        category: 'Budaya',
+        transport_type: 'Sungai',
+        district: 'Banjarmasin Utara',
+        location: { lat: -3.2929, lng: 114.5684, address: 'Jl. Alalak Selatan, Muara Kuin' },
+        description: 'Pasar terapung tertua peninggalan Kesultanan Banjar (1526). Di sini transaksi dilakukan di atas perahu klotok dan jukung, menawarkan sayur, buah, dan kuliner tradisional.',
+        images: ['https://images.unsplash.com/photo-1549449852-59530bedc78b?auto=format&fit=crop&w=1200&q=80'],
         rating: 4.9
     },
     {
-        name: 'Candi Prambanan',
-        category: 'Sejarah',
-        location: { lat: -7.752020, lng: 110.491467, address: 'Jl. Raya Solo - Yogyakarta No.16, Prambanan' },
-        description: 'Kompleks candi Hindu terbesar di Indonesia. Dikenal dengan arsitektur menara yang tinggi dan ramping serta relief yang menceritakan kisah Ramayana.',
-        images: ['https://images.unsplash.com/photo-1625736340270-a9097e030edb?auto=format&fit=crop&w=1200&q=80'],
+        name: 'Menara Pandang',
+        category: 'Landmark',
+        transport_type: 'Darat',
+        district: 'Banjarmasin Tengah',
+        location: { lat: -3.3186, lng: 114.5938, address: 'Siring Sungai Martapura' },
+        description: 'Landmark modern Kota Banjarmasin dengan tinggi 21 meter. Merupakan titik pantau terbaik untuk melihat aktivitas Sungai Martapura dan keindahan kota, terutama saat senja.',
+        images: ['https://images.unsplash.com/photo-1596402184320-417d7178b2cd?auto=format&fit=crop&w=1200&q=80'],
         rating: 4.8
     },
     {
-        name: 'Keraton Yogyakarta',
-        category: 'Budaya',
-        location: { lat: -7.805689, lng: 110.36406, address: 'Jl. Rotowijayan No. 1, Panembahan, Kraton' },
-        description: 'Istana resmi Kesultanan Ngayogyakarta Hadiningrat. Pusat kebudayaan Jawa yang masih lestari dengan arsitektur megah dan museum artefak kerajaan.',
-        images: ['https://images.unsplash.com/photo-1588693006208-463870349a75?auto=format&fit=crop&w=1200&q=80'],
-        rating: 4.7
-    },
-    {
-        name: 'Taman Sari',
-        category: 'Sejarah',
-        location: { lat: -7.810151, lng: 110.358946, address: 'Patehan, Kraton, Kota Yogyakarta' },
-        description: 'Bekas taman kerajaan atau kebun istana Sultan Yogyakarta. Memiliki kolam pemandian yang indah dan masjid bawah tanah Sumur Gumuling.',
-        images: ['https://images.unsplash.com/photo-1611638363034-c90ca9fcf96f?auto=format&fit=crop&w=1200&q=80'],
-        rating: 4.6
-    },
-    {
-        name: 'Gunung Merapi',
-        category: 'Alam',
-        location: { lat: -7.5407, lng: 110.4457, address: 'Sleman, Daerah Istimewa Yogyakarta' },
-        description: 'Salah satu gunung berapi paling aktif di dunia. Menawarkan wisata lava tour dengan jeep yang memacu adrenalin sambil menikmati pemandangan alam yang megah.',
-        images: ['https://images.unsplash.com/photo-1570535091217-09d5843477f7?auto=format&fit=crop&w=1200&q=80'],
-        rating: 4.9
-    },
-    {
-        name: 'Pantai Parangtritis',
-        category: 'Alam',
-        location: { lat: -8.0210, lng: 110.3340, address: 'Kreteg, Bantul, Yogyakarta' },
-        description: 'Pantai selatan yang legendaris dengan pasir hitam vulkanik dan gumuk pasir yang tinggi. Tempat terbaik untuk menikmati matahari terbenam.',
+        name: 'Patung Bekantan',
+        category: 'Landmark',
+        transport_type: 'Darat',
+        district: 'Banjarmasin Tengah',
+        location: { lat: -3.3190, lng: 114.5940, address: 'Siring Sungai Martapura' },
+        description: 'Patung raksasa setinggi 6.5 meter dari maskot satwa endemik Kalimantan Selatan, Kera hidung panjang (Bekantan). Sering menyemburkan air menghadap sungai.',
         images: ['https://images.unsplash.com/photo-1574548484606-5a468ee6118a?auto=format&fit=crop&w=1200&q=80'],
         rating: 4.7
     },
     {
-        name: 'Museum Ullen Sentalu',
-        category: 'Budaya',
-        location: { lat: -7.5979, lng: 110.4231, address: 'Jl. Boyong KM 25, Kaliurang, Sleman' },
-        description: 'Museum seni dan budaya Jawa yang unik di dataran tinggi Kaliurang. Menyimpan koleksi dari empat kerajaan dinasti Mataram.',
-        images: ['https://images.unsplash.com/photo-1518998053574-53f021346127?auto=format&fit=crop&w=1200&q=80'],
+        name: 'Masjid Sultan Suriansyah',
+        category: 'Sejarah',
+        transport_type: 'Darat',
+        district: 'Banjarmasin Utara',
+        location: { lat: -3.2954, lng: 114.5768, address: 'Jl. Kuin Utara' },
+        description: 'Masjid tertua dan bersejarah di Kalimantan Selatan yang dibangun pada 1526 setelah Pangeran Samudera memeluk Islam dan menjadi Sultan Suriansyah.',
+        images: ['https://images.unsplash.com/photo-1590487930999-56d1c95bf2fb?auto=format&fit=crop&w=1200&q=80'],
         rating: 4.9
     },
     {
-        name: 'Benteng Vredeburg',
+        name: 'Museum Wasaka',
         category: 'Sejarah',
-        location: { lat: -7.8003, lng: 110.3663, address: 'Jl. Margo Mulyo No.6, Ngupasan, Gondomanan' },
-        description: 'Benteng peninggalan Belanda yang kini menjadi museum perjuangan kemerdekaan Indonesia. Terletak tepat di ujung jalan Malioboro.',
+        transport_type: 'Darat',
+        district: 'Banjarmasin Utara',
+        location: { lat: -3.3033, lng: 114.6050, address: 'Jl. Kampung Kenanga Ulu' },
+        description: 'Museum Waja Sampai Kaputing (Wasaka) yang menyimpan senjata peninggalan perjuangan kemerdekaan rakyat Banjar melawan penjajah.',
         images: ['https://images.unsplash.com/photo-1579601053077-3e1140024479?auto=format&fit=crop&w=1200&q=80'],
-        rating: 4.5
+        rating: 4.6
+    },
+    {
+        name: 'Kampung Sasirangan',
+        category: 'Budaya',
+        transport_type: 'Darat',
+        district: 'Banjarmasin Tengah',
+        location: { lat: -3.3150, lng: 114.5975, address: 'Jl. Seberang Mesjid' },
+        description: 'Sentra industri kerajinan kain tradisional Kalsel (Sasirangan). Pengunjung dapat melihat langsung proses pembuatan dan berbelanja suvenir autentik.',
+        images: ['https://images.unsplash.com/photo-1611638363034-c90ca9fcf96f?auto=format&fit=crop&w=1200&q=80'],
+        rating: 4.8
     }
 ];
 
 const culinary = [
     {
-        name: 'Gudeg Yu Djum',
-        priceRange: 'Rp 20.000 - Rp 50.000',
-        location: { lat: -7.8175, lng: 110.3667, address: 'Jl. Wijilan No.167, Panembahan, Kraton' },
-        description: 'Gudeg paling legendaris di Yogyakarta. Menyajikan gudeg kering dengan rasa otentik yang telah ada sejak tahun 1977.',
+        name: 'Soto Banjar Bang Amat',
+        priceRange: 'Rp 30.000 - Rp 50.000',
+        location: { lat: -3.3100, lng: 114.6000, address: 'Jl. Benua Anyar, Banjarmasin Timur' },
+        description: 'Soto Banjar legendaris yang disajikan dengan kuah kental susu, rempah, suwiran ayam, dan ketupat, dengan pemandangan tepat ke arah sungai.',
         images: ['https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1200&q=80'],
-        rating: 4.8
-    },
-    {
-        name: 'Warung Kopi Klotok',
-        priceRange: 'Rp 10.000 - Rp 30.000',
-        location: { lat: -7.6740, lng: 110.4150, address: 'Jl. Kaliurang KM 16, Pakem, Sleman' },
-        description: 'Menikmati kopi khas dan pisang goreng hangat di pinggir sawah dengan suasana desa yang tenang dan pemandangan Gunung Merapi.',
-        images: ['https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=80'],
         rating: 4.9
     },
     {
-        name: 'Bakpia Pathok 25',
-        priceRange: 'Rp 25.000 - Rp 60.000',
-        location: { lat: -7.7915, lng: 110.3620, address: 'Jl. KS Tubun No. 65, Ngampilan' },
-        description: 'Oleh-oleh wajib Yogyakarta. Pengunjung bisa melihat langsung proses pembuatan bakpia yang masih hangat dari oven.',
-        images: ['https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&w=1200&q=80'],
-        rating: 4.7
-    },
-    {
-        name: 'Mie Lethek Mbah Mendes',
-        priceRange: 'Rp 15.000 - Rp 25.000',
-        location: { lat: -7.9500, lng: 110.3500, address: 'Sorobayan, Sanden, Bantul' },
-        description: 'Mie tradisional Bantul yang dibuat tanpa bahan pengawet dan pewarna. Memiliki tekstur unik dan rasa yang sangat gurih.',
-        images: ['https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=1200&q=80'],
-        rating: 4.6
+        name: 'Nasi Kuning Cempaka',
+        priceRange: 'Rp 20.000 - Rp 35.000',
+        location: { lat: -3.3220, lng: 114.5880, address: 'Banjarmasin Tengah' },
+        description: 'Nasi kuning khas Banjar dengan lauk bumbu masak habang (bumbu merah pekat yang rasanya manis gurih) dipadu dengan ikan haruan.',
+        images: ['https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=1200&q=80'],
+        rating: 4.8
     }
 ];
 
 const events = [
     {
-        name: 'Grebeg Syawal',
-        date: new Date('2026-03-20'),
-        location: 'Kraton Yogyakarta',
-        description: 'Upacara besar memperingati Idul Fitri dengan arak-arak gunungan sebagai simbol rasa syukur Sultan kepada rakyat.',
-        image: 'https://images.unsplash.com/photo-1544928147-79a2dbc1f389?auto=format&fit=crop&w=1200&q=80'
-    },
-    {
-        name: 'Yogyakarta Art Festival',
-        date: new Date('2026-07-15'),
-        location: 'Taman Budaya Yogyakarta',
-        description: 'Festival seni tahunan yang menampilkan berbagai karya seniman lokal, instalasi seni, dan pertunjukan budaya.',
-        image: 'https://images.unsplash.com/photo-1460661419201-fd4ce18a802d?auto=format&fit=crop&w=1200&q=80'
-    },
-    {
-        name: 'Sekaten',
-        date: new Date('2026-10-01'),
-        location: 'Alun-alun Utara Yogyakarta',
-        description: 'Pasar malam rakyat dan upacara peringatan Maulid Nabi Muhammad SAW dengan bunyi gamelan sekaten yang sakral.',
-        image: 'https://images.unsplash.com/photo-1517457373958-b7bdd458ad20?auto=format&fit=crop&w=1200&q=80'
+        name: 'Festival Budaya Susur Sungai',
+        date: new Date('2026-09-24'),
+        location: 'Sungai Martapura, Banjarmasin',
+        description: 'Perayaan ulang tahun Kota Banjarmasin dengan parade jukung hias, wisata susur sungai massal, dan pertunjukan seni di Siring Menara Pandang.',
+        image: 'https://images.unsplash.com/photo-1533900298318-6b8da08a523e?auto=format&fit=crop&w=1200&q=80'
     }
 ];
 
 const cultures = [
     {
-        name: 'Wayang Kulit',
-        category: 'Seni Pertunjukan',
-        description: 'Seni pertunjukan bayangan tradisional yang menggunakan boneka kulit, diiringi gamelan dan menceritakan epos Ramayana atau Mahabharata.',
-        image: 'https://images.unsplash.com/photo-1582738411706-bfc8e691d1c2?auto=format&fit=crop&w=1200&q=80'
+        name: 'Wisata Susur Sungai',
+        category: 'Tradisi',
+        description: 'Pilar utama budaya Banjarmasin sebagai Kota Seribu Sungai. Klotok dan Jukung digunakan bukan hanya sebagai alat transportasi, tetapi pusat ekonomi.',
+        image: 'https://images.unsplash.com/photo-1549449852-59530bedc78b?auto=format&fit=crop&w=1200&q=80'
     },
     {
-        name: 'Batik Tulis',
+        name: 'Kain Sasirangan',
         category: 'Kriya',
-        description: 'Warisan budaya takbenda UNESCO. Teknik pewarnaan kain menggunakan malam (lilin) yang lukis dengan tangan menggunakan canting.',
+        description: 'Kain penyembuhan dari zaman Pangeran Samudera yang kini menjadi identitas fashion estetik dengan berbagai motif alam.',
         image: 'https://images.unsplash.com/photo-1584118337855-f2d1136ce265?auto=format&fit=crop&w=1200&q=80'
-    },
-    {
-        name: 'Gamelan',
-        category: 'Seni Musik',
-        description: 'Ansambel musik tradisional Jawa yang terdiri dari berbagai alat musik perkusi perunggu, menciptakan harmoni ritual yang mendalam.',
-        image: 'https://images.unsplash.com/photo-1582738411706-bfc8e691d1c2?auto=format&fit=crop&w=1200&q=80'
     }
 ];
 
 const seedDB = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_URI);
-        console.log('MongoDB Connected for Seeding...');
+        await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/nirantajogja');
+        console.log('MongoDB Connected for Banjarmasin Specific...');
 
         await Place.deleteMany({});
         await Culinary.deleteMany({});
@@ -167,7 +127,7 @@ const seedDB = async () => {
         await Event.insertMany(events);
         await Culture.insertMany(cultures);
 
-        console.log('Data Seeded Successfully with Expanded Content!');
+        console.log('Banjarmasin Data Seeded Successfully!');
         process.exit();
     } catch (error) {
         console.error('Error seeding data:', error);

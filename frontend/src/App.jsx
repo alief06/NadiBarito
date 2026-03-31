@@ -18,7 +18,7 @@ const Profile = lazy(() => import('./pages/Profile'));
 
 const History = lazy(() => import('./pages/History'));
 const Culture = lazy(() => import('./pages/Culture'));
-const ModernJogja = lazy(() => import('./pages/ModernJogja'));
+const ModernKalsel = lazy(() => import('./pages/ModernKalsel'));
 
 const MainLayout = lazy(() => import('./components/MainLayout'));
 const ProtectedRoute = lazy(() => import('./components/ProtectedRoute'));
@@ -50,13 +50,13 @@ function App() {
             <Route path="explore" element={<Explore />} />
             <Route path="history" element={<History />} />
             <Route path="culture" element={<Culture />} />
-            <Route path="modern" element={<ModernJogja />} />
+            <Route path="modern" element={<ModernKalsel />} />
             <Route path="place/:id" element={<PlaceDetail />} />
             <Route path="culinary" element={<Culinary />} />
             <Route path="culinary/:id" element={<CulinaryDetail />} />
             <Route path="map" element={<InteractiveMap />} />
             <Route path="planner" element={<SmartPlanner />} />
-            <Route path="dashboard" element={<UserDashboard />} />
+            <Route path="user/itinerary" element={<UserDashboard />} />
             <Route path="profile" element={<Profile />} />
             <Route path="login" element={<Auth mode="login" />} />
             <Route path="register" element={<Auth mode="register" />} />

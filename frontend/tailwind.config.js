@@ -8,6 +8,10 @@ export default {
     theme: {
         extend: {
             colors: {
+                brand: {
+                    orange: '#f97316',
+                    dark: '#050505',
+                },
                 heritage: {
                     brown: '#5C3A21', // Primary: Coklat heritage
                     gold: '#D4AF37',  // Secondary: Gold

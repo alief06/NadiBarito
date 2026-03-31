@@ -2,273 +2,298 @@ import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, useMap, ZoomControl } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import api from '../utils/api';
-import { Loader2, Navigation, Utensils, X, Star, MapPin, ArrowRight, Layers, Info, Zap, Globe } from 'lucide-react';
+import { BANJARMASIN_TOURISM_DATA } from '../data/tourismData';
+import { MapPin, Navigation, Star, Clock, X, ArrowRight, Info } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import PageTransition from '../components/PageTransition';
-import Badge from '../components/Badge';
 import Button from '../components/Button';
 
-// Custom Marker Icons with Premium Aesthetics
-const createCustomIcon = (type, isActive) => {
+// Tema Gelap Berkualitas Tinggi untuk Open-Source Map
+const DARK_TILE_LAYER = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";
+
+const getCategoryColor = (category) => {
+    switch(category) {
+        case 'Wisata Sungai': return '#3b82f6';
+        case 'Religi': return '#10b981';
+        case 'Kuliner': return '#f59e0b';
+        case 'Sejarah': return '#8b5cf6';
+        case 'Belanja': return '#ec4899';
+        case 'Landmark': return '#eab308';
+        default: return '#ef4444';
+    }
+};
+
+const createCustomIcon = (category, isActive) => {
+    const color = getCategoryColor(category);
     return L.divIcon({
         html: `
-            <div class="relative flex items-center justify-center">
-                ${isActive ? `<div class="absolute w-12 h-12 rounded-full ${type === 'place' ? 'bg-heritage-gold' : 'bg-heritage-brown'} opacity-40 animate-ping"></div>` : ''}
-                <div class="relative w-10 h-10 rounded-full border-2 border-white dark:border-heritage-dark shadow-2xl flex items-center justify-center ${type === 'place' ? 'bg-heritage-gold' : 'bg-heritage-brown'} text-white transition-transform duration-300 ${isActive ? 'scale-125' : ''}">
-                    ${type === 'place' ? '🏛️' : '🍜'}
+            <div class="relative flex items-center justify-center transition-transform duration-300 ${isActive ? 'scale-125 z-[1000]' : ''}">
+                ${isActive ? `<div class="absolute w-12 h-12 rounded-full opacity-30 animate-ping" style="background-color: ${color}"></div>` : ''}
+                <div class="relative w-8 h-8 rounded-full border-[3px] border-white shadow-[0_0_15px_rgba(0,0,0,0.5)] flex items-center justify-center" style="background-color: ${color}">
+                    <div class="w-1.5 h-1.5 bg-white rounded-full"></div>
                 </div>
-                <div class="absolute -bottom-1 w-2 h-2 bg-white dark:bg-heritage-dark rounded-full shadow-md"></div>
             </div>
         `,
         className: 'custom-leaflet-icon',
-        iconSize: [40, 40],
-        iconAnchor: [20, 20]
+        iconSize: [32, 32],
+        iconAnchor: [16, 16]
     });
 };
 
-const MapResizer = () => {
+const UserLocationIcon = L.divIcon({
+    html: `
+        <div class="relative flex items-center justify-center z-[2000]">
+            <div class="absolute w-12 h-12 bg-blue-500 rounded-full opacity-40 animate-ping"></div>
+            <div class="relative w-6 h-6 bg-blue-500 border-[3px] border-white rounded-full shadow-[0_0_20px_rgba(59,130,246,0.9)]"></div>
+        </div>
+    `,
+    className: 'user-leaflet-icon',
+    iconSize: [24, 24],
+    iconAnchor: [12, 12]
+});
+
+const CATEGORIES = ['Semua', 'Wisata Sungai', 'Religi', 'Sejarah', 'Kuliner', 'Landmark', 'Belanja'];
+
+// Hitung Garis Batas Otomatis agar Peta Fokus ke Tujuan
+const MapBoundsAdjuster = ({ data, userLoc }) => {
     const map = useMap();
     useEffect(() => {
-        setTimeout(() => map.invalidateSize(), 400);
-    }, [map]);
+        const bounds = L.latLngBounds();
+        let hasPoints = false;
+
+        if (userLoc) {
+            bounds.extend([userLoc.lat, userLoc.lng]);
+            hasPoints = true;
+        }
+        
+        data.forEach(p => {
+            if (p.lat && p.lng) {
+                bounds.extend([p.lat, p.lng]);
+                hasPoints = true;
+            }
+        });
+
+        if (hasPoints) {
+            map.flyToBounds(bounds, { padding: [50, 50], maxZoom: 15, duration: 1.5 });
+        }
+    }, [data, userLoc, map]);
     return null;
 };
 
 const InteractiveMap = () => {
-    const [places, setPlaces] = useState([]);
-    const [culinary, setCulinary] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [selectedItem, setSelectedItem] = useState(null);
-    const [mapType, setMapType] = useState('light'); // light, dark, satellite
+    const [activeCategory, setActiveCategory] = useState('Semua');
+    const [selectedPlace, setSelectedPlace] = useState(null);
+    const [userLoc, setUserLoc] = useState(null);
+    const [distanceMsg, setDistanceMsg] = useState('');
 
+    const filteredData = activeCategory === 'Semua' 
+        ? BANJARMASIN_TOURISM_DATA 
+        : BANJARMASIN_TOURISM_DATA.filter(place => place.category === activeCategory);
+
+    // Rumus Haversine untuk Navigasi Cerdas
     useEffect(() => {
-        const checkDarkMode = () => {
-            const darkMode = document.documentElement.classList.contains('dark');
-            setMapType(darkMode ? 'dark' : 'light');
-        };
+        if (selectedPlace && userLoc) {
+            const R = 6371; // Jari-jari bumi (km)
+            const dLat = (selectedPlace.lat - userLoc.lat) * Math.PI / 180;
+            const dLon = (selectedPlace.lng - userLoc.lng) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(userLoc.lat * Math.PI / 180) * Math.cos(selectedPlace.lat * Math.PI / 180) *
+                      Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            const d = R * c;
+            setDistanceMsg(`Berjarak sekitar ${d.toFixed(1)} km dari lokasimu`);
+        } else {
+            setDistanceMsg('');
+        }
+    }, [selectedPlace, userLoc]);
 
-        checkDarkMode();
-
-        const observer = new MutationObserver(checkDarkMode);
-        observer.observe(document.documentElement, {
-            attributes: true,
-            attributeFilter: ['class']
-        });
-
-        return () => observer.disconnect();
-    }, []);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [placesRes, culinaryRes] = await Promise.all([
-                    api.get('/places'),
-                    api.get('/culinary')
-                ]);
-                setPlaces(placesRes.data);
-                setCulinary(culinaryRes.data);
-            } catch (err) {
-                console.error(err);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchData();
-    }, []);
-
-    if (loading) return (
-        <div className="h-screen flex items-center justify-center bg-heritage-cream dark:bg-heritage-dark text-heritage-gold">
-            <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-                className="mr-16"
-            >
-                <Loader2 size={48} />
-            </motion.div>
-            <span className="font-heritage text-2xl italic">Menyiapkan cakrawala digital...</span>
-        </div>
-    );
-
-    const tileUrls = {
-        light: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
-        dark: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
-        satellite: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+    const requestLocation = () => {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                (pos) => setUserLoc({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+                (err) => alert("Gagal mendapatkan lokasi Anda. Pastikan izin lokasi diaktifkan pada browser.")
+            );
+        } else {
+            alert("Geolocation tidak didukung di browser ini.");
+        }
     };
 
     return (
         <PageTransition>
-            <div className="h-[calc(100vh-6rem)] w-full relative flex overflow-hidden">
-                {/* Map Area */}
+            <div className="h-[calc(100vh-6rem)] w-full relative flex overflow-hidden bg-[#0a0a0a]">
+                
+                {/* Area Peta Terbuka Kualitas Tinggi (Tanpa API Key, 100% Gratis) */}
                 <div className="flex-1 relative z-0">
                     <MapContainer
-                        center={[-7.795, 110.369]}
+                        center={[-3.316694, 114.590111]}
                         zoom={13}
-                        style={{ height: '100%', width: '100%' }}
+                        style={{ height: '100%', width: '100%', backgroundColor: '#0a0a0a' }}
                         scrollWheelZoom={true}
                         zoomControl={false}
                     >
-                        <MapResizer />
                         <TileLayer
-                            url={tileUrls[mapType]}
-                            attribution='&copy; OpenStreetMap contributors'
+                            url={DARK_TILE_LAYER}
+                            attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
                         />
-
-                        {/* Tourism Markers */}
-                        {places.map(place => place.location && (
-                            <Marker
-                                key={place._id}
-                                position={[place.location.lat, place.location.lng]}
-                                icon={createCustomIcon('place', selectedItem?._id === place._id)}
-                                eventHandlers={{
-                                    click: () => setSelectedItem({ ...place, type: 'place' })
-                                }}
-                            />
-                        ))}
-
-                        {/* Culinary Markers */}
-                        {culinary.map(item => item.location && (
-                            <Marker
-                                key={item._id}
-                                position={[item.location.lat, item.location.lng]}
-                                icon={createCustomIcon('culinary', selectedItem?._id === item._id)}
-                                eventHandlers={{
-                                    click: () => setSelectedItem({ ...item, type: 'culinary' })
-                                }}
-                            />
-                        ))}
-
+                        
+                        <MapBoundsAdjuster data={filteredData} userLoc={userLoc} />
                         <ZoomControl position="bottomright" />
+
+                        {/* Titik Lokasi Pengguna Saat Ini */}
+                        {userLoc && (
+                            <Marker position={[userLoc.lat, userLoc.lng]} icon={UserLocationIcon} zIndexOffset={9999} />
+                        )}
+                        
+                        {/* Pin Destinasi */}
+                        {filteredData.map((place) => (
+                            <Marker
+                                key={place.id}
+                                position={[place.lat, place.lng]}
+                                icon={createCustomIcon(place.category, selectedPlace?.id === place.id)}
+                                eventHandlers={{ click: () => setSelectedPlace(place) }}
+                                zIndexOffset={selectedPlace?.id === place.id ? 1000 : 0}
+                            />
+                        ))}
                     </MapContainer>
 
-                    {/* Left Legend & Controls */}
-                    <div className="absolute top-24 left-24 z-[1000] flex flex-col gap-16">
-                        <div className="premium-glass p-8 rounded-2xl flex flex-col gap-8">
-                            <button
-                                onClick={() => setMapType('light')}
-                                className={`p-12 rounded-xl transition-all ${mapType === 'light' ? 'bg-heritage-gold text-white shadow-lg' : 'hover:bg-black/5'}`}
-                                title="Terang"
-                            >
-                                <Layers size={20} />
-                            </button>
-                            <button
-                                onClick={() => setMapType('dark')}
-                                className={`p-12 rounded-xl transition-all ${mapType === 'dark' ? 'bg-heritage-gold text-white shadow-lg' : 'hover:bg-black/5'}`}
-                                title="Gelap"
-                            >
-                                <Zap size={20} />
-                            </button>
-                            <button
-                                onClick={() => setMapType('satellite')}
-                                className={`p-12 rounded-xl transition-all ${mapType === 'satellite' ? 'bg-heritage-gold text-white shadow-lg' : 'hover:bg-black/5'}`}
-                                title="Satelit"
-                            >
-                                <Globe size={20} />
-                            </button>
+                    {/* Overlay Atas: Filter Kategori Wisata */}
+                    <div className="absolute top-28 md:top-32 left-1/2 -translate-x-1/2 z-[1000] w-full max-w-4xl px-4 pointer-events-none transition-all">
+                        <div className="bg-[#112F36]/90 backdrop-blur-xl p-3 md:p-4 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 flex flex-nowrap md:flex-wrap overflow-x-auto justify-start md:justify-center gap-2 md:gap-3 pointer-events-auto custom-scrollbar">
+                            {CATEGORIES.map((cat) => (
+                                <button
+                                    key={cat}
+                                    onClick={() => { setActiveCategory(cat); setSelectedPlace(null); }}
+                                    className={`px-4 md:px-6 py-2 rounded-full text-xs font-bold transition-all border outline-none shrink-0 ${
+                                        activeCategory === cat 
+                                        ? 'bg-[#f59e0b] text-black border-[#f59e0b] shadow-[0_0_15px_rgba(245,158,11,0.5)] scale-105' 
+                                        : 'bg-black/50 text-white/70 border-white/10 hover:bg-white/20 hover:text-white'
+                                    }`}
+                                >
+                                    {cat}
+                                </button>
+                            ))}
                         </div>
                     </div>
 
-                    {/* Bottom Legend */}
-                    <div className="absolute bottom-24 left-24 z-[1000] hidden md:flex items-center gap-16 premium-glass px-16 py-12 rounded-2xl shadow-2xl">
-                        <div className="flex items-center gap-8">
-                            <div className="w-12 h-12 bg-heritage-gold rounded-full shadow-lg"></div>
-                            <span className="text-xs font-bold uppercase tracking-wider">Wisata</span>
+                    {/* Panel Keterangan Warna (Legend) */}
+                    <div className="absolute top-48 md:top-56 right-4 md:right-auto md:left-8 z-[1000] bg-[#112F36]/90 backdrop-blur-xl p-4 md:p-5 rounded-2xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] pointer-events-auto">
+                        <h4 className="text-white text-[10px] md:text-xs font-bold mb-4 uppercase tracking-wider flex items-center gap-2">
+                            <Info size={14} className="text-[#f59e0b]" /> 
+                            Keterangan Pin
+                        </h4>
+                        <div className="flex flex-col gap-3">
+                            {CATEGORIES.filter(c => c !== 'Semua').map(cat => (
+                                <div key={cat} className="flex items-center gap-3 group cursor-pointer hover:bg-white/5 p-1 rounded-lg transition-colors" onClick={() => setActiveCategory(cat)}>
+                                    <div className="w-4 h-4 rounded-full border-2 border-white shadow-[0_0_10px_rgba(0,0,0,0.5)] group-hover:scale-125 transition-transform" style={{ backgroundColor: getCategoryColor(cat) }}></div>
+                                    <span className="text-white/80 text-[11px] md:text-sm font-medium whitespace-nowrap group-hover:text-white transition-colors">{cat}</span>
+                                </div>
+                            ))}
                         </div>
-                        <div className="flex items-center gap-8">
-                            <div className="w-12 h-12 bg-heritage-brown rounded-full shadow-lg"></div>
-                            <span className="text-xs font-bold uppercase tracking-wider">Kuliner</span>
-                        </div>
+                    </div>
+                    
+                    {/* Overlay Bawah-Kiri: Pintasan Radius Rute */}
+                    <div className="absolute bottom-8 left-8 z-[1000] pointer-events-auto">
+                        <button 
+                            onClick={requestLocation}
+                            className="bg-[#112F36] text-[#f59e0b] p-4 rounded-full shadow-[0_0_20px_rgba(0,0,0,0.5)] hover:bg-[#1a444e] border border-[#f59e0b]/30 flex items-center gap-3 group transition-all"
+                        >
+                            <MapPin size={24} className="group-hover:animate-bounce" />
+                            <span className="font-bold text-sm hidden group-hover:block transition-all mr-2">Cari Titik Lokasi Saya</span>
+                        </button>
                     </div>
                 </div>
 
-                {/* Info Panel */}
+                {/* Panel Informasi Sebelah Kanan (Bila pin ditekan) */}
                 <AnimatePresence>
-                    {selectedItem && (
+                    {selectedPlace && (
                         <motion.div
                             initial={{ x: '100%' }}
                             animate={{ x: 0 }}
                             exit={{ x: '100%' }}
                             transition={{ type: 'spring', damping: 30, stiffness: 200 }}
-                            className="absolute top-0 right-0 h-full w-full md:w-[480px] bg-white dark:bg-heritage-dark shadow-[-20px_0_50px_rgba(0,0,0,0.1)] z-[2000] flex flex-col pt-20"
+                            className="absolute top-0 right-0 h-full w-full md:w-[450px] bg-[#112F36] shadow-[-20px_0_50px_rgba(0,0,0,0.8)] z-[2000] flex flex-col border-l border-white/10"
                         >
                             <button
-                                onClick={() => setSelectedItem(null)}
-                                className="absolute top-24 right-20 p-12 bg-heritage-cream dark:bg-heritage-dark-surface rounded-full hover:scale-110 active:scale-95 transition-all shadow-md z-10"
+                                onClick={() => setSelectedPlace(null)}
+                                className="absolute top-6 right-6 p-2 bg-black/50 hover:bg-black/80 text-white rounded-full hover:scale-110 active:scale-95 transition-all shadow-md z-30 backdrop-blur-sm"
                             >
                                 <X size={20} />
                             </button>
 
-                            <div className="overflow-y-auto flex-1 custom-scrollbar">
-                                <div className="h-80 relative overflow-hidden group">
+                            <div className="overflow-y-auto flex-1 custom-scrollbar text-white pb-16">
+                                <div className="h-72 relative overflow-hidden group">
                                     <img
-                                        src={selectedItem.images?.[0] || 'https://via.placeholder.com/600x400'}
-                                        alt={selectedItem.name}
+                                        src={selectedPlace.image}
+                                        alt={selectedPlace.name}
                                         className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-heritage-brown/90 via-heritage-brown/20 to-transparent"></div>
-                                    <div className="absolute bottom-32 left-32 right-32 text-white">
-                                        <div className="flex items-center gap-8 mb-8">
-                                            <Badge variant="gold" className="px-12 py-4 text-[10px] uppercase font-bold tracking-widest bg-heritage-gold/80 backdrop-blur-md">
-                                                {selectedItem.category || 'Destinasi'}
-                                            </Badge>
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#112F36] via-[#112F36]/20 to-transparent"></div>
+                                    <div className="absolute bottom-6 left-8 right-8 text-white">
+                                        <div className="flex items-center gap-3 mb-4">
+                                            <div className="px-3 py-1 text-[10px] uppercase font-bold tracking-widest bg-[#f59e0b] text-black rounded-full shadow-lg">
+                                                {selectedPlace.category}
+                                            </div>
+                                            <div className="flex items-center gap-1 bg-black/50 backdrop-blur-md px-2 py-1 rounded-full text-xs font-bold border border-white/10">
+                                                <Star size={12} className="text-[#f59e0b] fill-[#f59e0b]" /> {selectedPlace.rating}
+                                            </div>
                                         </div>
-                                        <h2 className="text-h2 font-heritage font-bold leading-tight">{selectedItem.name}</h2>
+                                        <h2 className="text-3xl font-serif font-bold leading-tight drop-shadow-md">{selectedPlace.name}</h2>
                                     </div>
                                 </div>
 
-                                <div className="p-32 space-y-32">
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex items-center gap-8">
-                                            <div className="flex items-center gap-4 bg-heritage-gold/10 px-12 py-6 rounded-full text-heritage-gold font-bold">
-                                                <Star size={16} fill="currentColor" />
-                                                <span>{selectedItem.rating}</span>
-                                            </div>
-                                            <span className="text-small opacity-50 font-bold uppercase">Rating</span>
-                                        </div>
-                                        <Link
-                                            to={selectedItem.type === 'place' ? `/place/${selectedItem._id}` : `/culinary/${selectedItem._id}`}
-                                            className="text-heritage-gold font-bold text-small hover:underline"
+                                <div className="p-8 space-y-8">
+                                    
+                                    {/* Jarak Dinamis Rute Navigasi */}
+                                    {distanceMsg && (
+                                        <motion.div 
+                                            initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
+                                            className="bg-[#f59e0b]/10 border border-[#f59e0b]/30 text-[#f59e0b] px-4 py-3 rounded-xl flex items-center gap-3 text-sm font-bold shadow-inner"
                                         >
-                                            Buka Halaman Detail
-                                        </Link>
-                                    </div>
+                                            <Navigation size={18} className="animate-pulse shrink-0" />
+                                            {distanceMsg}
+                                        </motion.div>
+                                    )}
 
-                                    <div className="space-y-12">
-                                        <div className="flex items-start gap-12">
-                                            <div className="p-8 bg-black/5 dark:bg-white/5 rounded-lg text-heritage-gold">
+                                    <div className="space-y-5">
+                                        <div className="flex items-start gap-4">
+                                            <div className="p-3 bg-white/5 rounded-lg text-[#f59e0b] shrink-0 border border-white/5">
                                                 <MapPin size={20} />
                                             </div>
                                             <div>
-                                                <h4 className="text-small font-bold mb-4">Lokasi</h4>
-                                                <p className="text-small opacity-70 leading-relaxed italic">{selectedItem.location?.address}</p>
+                                                <h4 className="text-sm font-bold mb-1 text-white/60 uppercase tracking-wider">Titik Koordinat</h4>
+                                                <p className="text-[13px] font-mono opacity-90">{selectedPlace.lat}, {selectedPlace.lng}</p>
                                             </div>
                                         </div>
 
-                                        <div className="flex items-start gap-12 pt-16">
-                                            <div className="p-8 bg-black/5 dark:bg-white/5 rounded-lg text-heritage-gold">
-                                                <Info size={20} />
+                                        <div className="flex items-start gap-4">
+                                            <div className="p-3 bg-white/5 rounded-lg text-[#f59e0b] shrink-0 border border-white/5">
+                                                <Clock size={20} />
                                             </div>
                                             <div>
-                                                <h4 className="text-small font-bold mb-4">Informasi</h4>
-                                                <p className="text-small opacity-80 leading-relaxed line-clamp-6">
-                                                    {selectedItem.description}
-                                                </p>
+                                                <h4 className="text-sm font-bold mb-1 text-white/60 uppercase tracking-wider">Waktu Kunjungan</h4>
+                                                <p className="text-[13px] opacity-90">{selectedPlace.bestTime}</p>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="pt-16">
+                                    <div className="pt-6 border-t border-white/10">
+                                        <h4 className="text-sm font-bold mb-3 text-white/60 uppercase tracking-wider flex items-center gap-2"><Info size={16} /> Deskripsi Destinasi</h4>
+                                        <p className="text-[15px] opacity-90 leading-relaxed text-justify">
+                                            {selectedPlace.description}
+                                        </p>
+                                    </div>
+
+                                    <div className="pt-6">
                                         <Button
                                             variant="primary"
-                                            className="w-full flex items-center justify-center gap-12 group"
+                                            className="w-full flex items-center justify-center gap-3 bg-[#f59e0b] hover:bg-yellow-500 text-black font-bold uppercase tracking-wider py-4 rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.3)] group transition-all"
                                             onClick={() => {
-                                                const url = `https://www.google.com/maps/dir/?api=1&destination=${selectedItem.location.lat},${selectedItem.location.lng}`;
+                                                const url = `https://www.google.com/maps/dir/?api=1&destination=${selectedPlace.lat},${selectedPlace.lng}`;
                                                 window.open(url, '_blank');
                                             }}
                                         >
-                                            Navigasi Ke Lokasi
-                                            <ArrowRight size={20} className="group-hover:translate-x-4 transition-transform" />
+                                            Buka Rute Kesini
+                                            <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
                                         </Button>
                                     </div>
                                 </div>

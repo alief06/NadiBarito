@@ -68,7 +68,7 @@ const AdminEvents = () => {
             <div className="flex justify-between items-center">
                 <div>
                     <h1 className="text-3xl font-heritage font-bold text-heritage-brown">Manajemen <span className="text-heritage-gold">Event</span></h1>
-                    <p className="text-gray-500 mt-2 text-small">Kelola jadwal acara dan festival budaya di Yogyakarta.</p>
+                    <p className="text-gray-500 mt-2 text-small">Kelola jadwal acara dan festival budaya di Kalimantan Selatan.</p>
                 </div>
                 <button
                     onClick={() => handleOpenModal()}

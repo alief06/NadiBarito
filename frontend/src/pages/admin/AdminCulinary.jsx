@@ -66,7 +66,7 @@ const AdminCulinary = () => {
             <div className="flex justify-between items-center mb-8">
                 <div>
                     <h2 className="text-2xl font-heritage font-bold text-heritage-brown">Manajemen Kuliner</h2>
-                    <p className="text-gray-500">Kelola daftar rekomendasi hidangan dan tempat makan di Yogyakarta.</p>
+                    <p className="text-gray-500">Kelola daftar rekomendasi hidangan dan tempat makan di Kalimantan Selatan.</p>
                 </div>
                 <button
                     onClick={() => handleOpenModal()}
@@ -99,7 +99,7 @@ const AdminCulinary = () => {
                                         </div>
                                         <div>
                                             <p className="font-bold text-heritage-brown">{item.name}</p>
-                                            <p className="text-xs text-gray-400 truncate max-w-[200px]">{item.location?.address || 'Yogyakarta'}</p>
+                                            <p className="text-xs text-gray-400 truncate max-w-[200px]">{item.location?.address || 'Kalimantan Selatan'}</p>
                                         </div>
                                     </div>
                                 </td>

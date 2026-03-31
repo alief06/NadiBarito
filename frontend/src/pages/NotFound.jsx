@@ -42,7 +42,7 @@ const NotFound = () => {
                 <h2 className="text-2xl font-bold text-heritage-brown uppercase tracking-widest mb-6">Halaman Hilang</h2>
 
                 <p className="text-gray-600 mb-10 leading-relaxed">
-                    Sepertinya Anda tersesat di lorong waktu Yogyakarta. Halaman yang Anda cari tidak dapat ditemukan di peta kami.
+                    Sepertinya Anda tersesat di lorong waktu Kalimantan Selatan. Halaman yang Anda cari tidak dapat ditemukan di peta kami.
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -60,7 +60,7 @@ const NotFound = () => {
                 </div>
             </motion.div>
 
-            {/* Decorative Jogja Motif */}
+            {/* Decorative Kalsel Motif */}
             <div className="absolute bottom-0 left-0 right-0 h-24 bg-heritage-brown/5 flex justify-center items-end opacity-20">
                 {Array.from({ length: 12 }).map((_, i) => (
                     <div key={i} className="w-12 h-12 border-t-2 border-r-2 border-heritage-gold rotate-45 transform translate-y-6 mx-2"></div>

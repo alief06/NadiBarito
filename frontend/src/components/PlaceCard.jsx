@@ -123,7 +123,7 @@ const PlaceCard = ({ place, isCompact = false }) => {
 
                 <div className="flex items-center gap-8 text-small text-gray-500 dark:text-gray-500 font-medium mb-16">
                     <MapPin size={16} className="text-heritage-gold" />
-                    <span className="truncate">{place.location.address || 'Yogyakarta'}</span>
+                    <span className="truncate">{place.location.address || 'Kalimantan Selatan'}</span>
                 </div>
 
                 <p className="text-body text-gray-600 dark:text-gray-400 mb-24 line-clamp-3 italic flex-1">

@@ -54,7 +54,7 @@ const AdminLayout = () => {
                 <div className="p-24 border-b border-white/10 flex items-center justify-between overflow-hidden h-32">
                     <Link to="/admin" className="flex items-center gap-12 group">
                         <div className={`h-16 transition-all duration-500 ${isSidebarOpen ? 'w-auto' : 'w-16 overflow-hidden'}`}>
-                            <img src={logo} alt="NirantaJogja" className="h-full w-auto object-contain brightness-110" />
+                            <img src={logo} alt="ExploreKalsel" className="h-full w-auto object-contain brightness-110" />
                         </div>
                     </Link>
                 </div>

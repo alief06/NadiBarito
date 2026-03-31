@@ -20,7 +20,7 @@ const resources = {
             },
             features: {
                 curated: 'Destinasi Terkurasi',
-                curated_desc: 'Temukan sudut-sudut tersembunyi Jogja yang autentik dan jarang diketahui.',
+                curated_desc: 'Temukan sudut-sudut tersembunyi Kalsel yang autentik dan jarang diketahui.',
                 planner: 'Smart Planner',
                 planner_desc: 'Rencanakan perjalanan Anda dalam hitungan detik dengan AI cerdas kami.',
                 guide: 'Panduan Terpercaya',
@@ -54,7 +54,7 @@ const resources = {
             },
             features: {
                 curated: 'Curated Destinations',
-                curated_desc: 'Discover authentic and hidden gems of Jogja that are rarely known.',
+                curated_desc: 'Discover authentic and hidden gems of Kalsel that are rarely known.',
                 planner: 'Smart Planner',
                 planner_desc: 'Plan your trip in seconds with our intelligent AI system.',
                 guide: 'Trusted Guide',

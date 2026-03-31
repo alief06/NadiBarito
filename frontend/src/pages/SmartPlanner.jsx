@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import api from '../utils/api';
-import { Calendar, DollarSign, Heart, Sparkles, MapPin, Clock, ArrowRight, Loader2, ChevronLeft, Trash2, Save, Download, Coffee, Mountain, Camera } from 'lucide-react';
+import { Calendar, DollarSign, Heart, Sparkles, MapPin, Clock, ArrowRight, Loader2, ChevronLeft, Trash2, Save, Download, Coffee, Mountain, Camera, Utensils } from 'lucide-react';
 import PageTransition from '../components/PageTransition';
 import { Container, Section } from '../components/Layout';
 import Button from '../components/Button';
@@ -29,23 +29,59 @@ const SmartPlanner = () => {
 
     const generateItinerary = async () => {
         setLoading(true);
-        await new Promise(resolve => setTimeout(resolve, 2500));
+        try {
+            // Coba fetch dari API
+            const [placesRes, culinaryRes] = await Promise.all([
+                api.get('/places').catch(() => ({ data: [] })),
+                api.get('/culinary').catch(() => ({ data: [] }))
+            ]);
+            
+            let places = placesRes.data;
+            let culinary = culinaryRes.data;
+            
+            // Fallback spesifik Banjarmasin jika API gagal
+            if (places.length === 0) {
+                places = [
+                    { name: 'Pasar Terapung Muara Kuin', category: 'Budaya', district: 'Utara' },
+                    { name: 'Masjid Sultan Suriansyah', category: 'Sejarah', district: 'Utara' },
+                    { name: 'Menara Pandang', category: 'Landmark', district: 'Tengah' },
+                    { name: 'Kampung Sasirangan', category: 'Budaya', district: 'Tengah' },
+                    { name: 'Patung Bekantan', category: 'Landmark', district: 'Tengah' }
+                ];
+                culinary = [
+                    { name: 'Soto Banjar Bang Amat', category: 'Kuliner', location: 'Tengah' },
+                    { name: 'Nasi Kuning Cempaka', category: 'Kuliner', location: 'Tengah' }
+                ];
+            }
 
-        const mockPlan = Array.from({ length: formData.duration }, (_, i) => ({
-            day: i + 1,
-            title: i === 0 ? 'Wisata Klasik & Kuliner' : i === 1 ? 'Eksplorasi Alam & Modernitas' : 'Relaksasi & Budaya',
-            activities: [
-                { time: '08:00', activity: 'Sarapan Gudeg Yu Djum', location: 'Wijilan', category: 'Kuliner', icon: <Coffee size={14} /> },
-                { time: '10:00', activity: formData.preferences.includes('Budaya') ? 'Keraton Yogyakarta & Tamansari' : 'HeHa Sky View', location: 'Pusat Kota', category: 'Wisata', icon: <Camera size={14} /> },
-                { time: '13:00', activity: 'Makan Siang Nasi Pecel Solo', location: 'Sleman', category: 'Kuliner', icon: <Coffee size={14} /> },
-                { time: '15:00', activity: formData.preferences.includes('Alam') ? 'Sunset di Pantai Parangtritis' : 'Jalan-jalan Malioboro', location: 'Bantul / Kota', category: 'Wisata', icon: <Mountain size={14} /> },
-                { time: '19:00', activity: 'Makan Malam Bakmi Jowo Mbah Gito', location: 'Kotagede', category: 'Kuliner', icon: <Coffee size={14} /> }
-            ]
-        }));
+            const mockPlan = Array.from({ length: formData.duration }, (_, i) => {
+                // Tentukan lokasi unik agar itinerary bervariasi
+                const pasarTerapung = places.find(p => p.name.includes('Pasar Terapung')) || places[0];
+                const sejarahArea = places.find(p => p.category === 'Sejarah') || places[1];
+                const siringArea = places.find(p => p.category === 'Landmark') || places[2];
+                const lunch = culinary[0] || { name: 'Kuliner Lokal' };
+                const dinner = culinary[1] || culinary[0] || { name: 'Kuliner Malam' };
 
-        setItinerary(mockPlan);
-        setLoading(false);
-        setStep(4);
+                return {
+                    day: i + 1,
+                    title: i === 0 ? 'Pusat Nadi Kota Barito' : i === 1 ? 'Susur Sungai & Sejarah' : 'Budaya & Santai',
+                    activities: [
+                        { time: '05:30', activity: `Susur pagi di ${pasarTerapung.name}`, location: 'Sungai Barito', category: 'Budaya', icon: <Camera size={14} /> },
+                        { time: '10:00', activity: `Eksplorasi ${sejarahArea.name}`, location: 'Kawasan Heritage', category: 'Sejarah', icon: <MapPin size={14} /> },
+                        { time: '13:00', activity: `Makan Siang: ${lunch.name}`, location: 'Pusat Kota', category: 'Kuliner', icon: <Utensils size={14} /> },
+                        { time: '16:00', activity: `Menikmati Sore di ${siringArea.name}`, location: 'Siring', category: 'Wisata', icon: <Sparkles size={14} /> },
+                        { time: '19:00', activity: `Makan Malam: ${dinner.name} & Susur Malam`, location: 'Tepi Sungai', category: 'Kuliner', icon: <Coffee size={14} /> }
+                    ]
+                };
+            });
+
+            setItinerary(mockPlan);
+            setStep(4);
+        } catch (error) {
+            console.error("Gagal membuat plan", error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const saveItinerary = async () => {

@@ -162,7 +162,7 @@ const Profile = () => {
                                         <div className="bg-white rounded-[40px] p-16 text-center shadow-lg border border-dashed border-heritage-gold/20">
                                             <Calendar className="mx-auto text-gray-200 mb-6" size={64} />
                                             <h3 className="text-2xl font-heritage font-bold text-heritage-brown mb-2">Belum Ada Rencana</h3>
-                                            <p className="text-gray-500 mb-8 max-w-xs mx-auto">Ayo rancang perjalanan impianmu ke berbagai sudut estetik Yogyakarta.</p>
+                                            <p className="text-gray-500 mb-8 max-w-xs mx-auto">Ayo rancang perjalanan impianmu ke berbagai sudut estetik Kalimantan Selatan.</p>
                                             <button
                                                 onClick={() => navigate('/planner')}
                                                 className="btn-primary px-8"
@@ -176,7 +176,7 @@ const Profile = () => {
                                                 <div key={plan._id} className="bg-white rounded-[24px] p-8 shadow-lg border border-heritage-gold/5 hover:shadow-xl transition-all group">
                                                     <div className="flex justify-between items-start mb-4">
                                                         <div>
-                                                            <h4 className="text-xl font-bold text-heritage-brown group-hover:text-heritage-gold transition-colors">Trip Jogja {plan.duration} Hari</h4>
+                                                            <h4 className="text-xl font-bold text-heritage-brown group-hover:text-heritage-gold transition-colors">Trip Kalsel {plan.duration} Hari</h4>
                                                             <p className="text-xs text-gray-400 mt-1 font-medium">Dibuat pada {new Date(plan.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                                                         </div>
                                                         <span className="bg-heritage-gold/10 text-heritage-gold px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-[0.2em]">{plan.budget}</span>

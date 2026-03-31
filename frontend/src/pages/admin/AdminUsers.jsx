@@ -48,7 +48,7 @@ const AdminUsers = () => {
             <div className="flex justify-between items-end">
                 <div>
                     <h1 className="text-3xl font-heritage font-bold text-heritage-brown">Manajemen <span className="text-heritage-gold">Users</span></h1>
-                    <p className="text-gray-500 mt-2 text-small">Kelola hak akses dan data pengguna NirantaJogja.</p>
+                    <p className="text-gray-500 mt-2 text-small">Kelola hak akses dan data pengguna ExploreKalsel.</p>
                 </div>
                 <div className="relative group">
                     <Search className="absolute left-12 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-heritage-gold transition-colors" size={18} />

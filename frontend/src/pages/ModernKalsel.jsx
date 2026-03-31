@@ -14,12 +14,12 @@ const stats = [
 ];
 
 const startups = [
-    { name: 'JogjaTech', desc: 'Solusi waste management berbasis AI.', sector: 'Eco-tech' },
+    { name: 'KalselTech', desc: 'Solusi waste management berbasis AI.', sector: 'Eco-tech' },
     { name: 'HeritageArt', desc: 'Platform digitalisasi aset budaya.', sector: 'Creativity' },
     { name: 'SmartTransit', desc: 'Optimasi transportasi publik lokal.', sector: 'Mobility' }
 ];
 
-const ModernJogja = () => {
+const ModernKalsel = () => {
     return (
         <PageTransition>
             <div className="bg-heritage-cream dark:bg-heritage-dark min-h-screen">
@@ -33,7 +33,7 @@ const ModernJogja = () => {
                         >
                             <h1 className="text-h1 font-heritage mb-16">Masa Depan <span className="text-heritage-gold">Istimewa</span></h1>
                             <p className="max-w-2xl text-body opacity-80">
-                                Transformasi Yogyakarta menuju peradaban modern yang tetap berpijak pada nilai-nilai tradisi melalui inovasi teknologi dan ekosistem startup berkelanjutan.
+                                Transformasi Kalimantan Selatan menuju peradaban modern yang tetap berpijak pada nilai-nilai tradisi melalui inovasi teknologi dan ekosistem startup berkelanjutan.
                             </p>
                         </motion.div>
 
@@ -86,7 +86,7 @@ const ModernJogja = () => {
                                     <h2 className="text-h2 font-heritage">Digital Growth Statistics</h2>
                                 </div>
                                 <p className="text-body opacity-80 mb-32">
-                                    Tingkat adopsi teknologi yang tinggi di Yogyakarta menjadikannya hub digital potensial di Indonesia, menarik minat talenta global dan investor.
+                                    Tingkat adopsi teknologi yang tinggi di Kalimantan Selatan menjadikannya hub digital potensial di Indonesia, menarik minat talenta global dan investor.
                                 </p>
                                 <div className="space-y-24">
                                     {stats.map((s, idx) => (
@@ -151,4 +151,4 @@ const ModernJogja = () => {
     );
 };
 
-export default ModernJogja;
+export default ModernKalsel;

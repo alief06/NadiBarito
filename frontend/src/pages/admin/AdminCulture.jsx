@@ -64,7 +64,7 @@ const AdminCulture = () => {
             <div className="flex justify-between items-center">
                 <div>
                     <h1 className="text-3xl font-heritage font-bold text-heritage-brown">Arsip <span className="text-heritage-gold">Budaya</span></h1>
-                    <p className="text-gray-500 mt-2 text-small">Kelola konten edukasi seputar tradisi, kesenian, dan warisan Jogja.</p>
+                    <p className="text-gray-500 mt-2 text-small">Kelola konten edukasi seputar tradisi, kesenian, dan warisan Kalsel.</p>
                 </div>
                 <button
                     onClick={() => handleOpenModal()}

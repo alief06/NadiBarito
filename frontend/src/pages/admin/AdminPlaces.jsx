@@ -65,7 +65,7 @@ const AdminPlaces = () => {
             <div className="flex justify-between items-center mb-8">
                 <div>
                     <h2 className="text-2xl font-heritage font-bold text-heritage-brown">Manajemen Wisata</h2>
-                    <p className="text-gray-500">Kelola daftar rekomendasi tempat wisata di Yogyakarta.</p>
+                    <p className="text-gray-500">Kelola daftar rekomendasi tempat wisata di Kalimantan Selatan.</p>
                 </div>
                 <button
                     onClick={() => handleOpenModal()}
@@ -100,7 +100,7 @@ const AdminPlaces = () => {
                                     </div>
                                 </td>
                                 <td className="px-6 py-4"><span className="px-2 py-1 bg-heritage-gold/10 text-heritage-gold rounded text-xs font-bold uppercase">{place.category}</span></td>
-                                <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">{place.location?.address || 'Yogyakarta'}</td>
+                                <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">{place.location?.address || 'Kalimantan Selatan'}</td>
                                 <td className="px-6 py-4 font-bold text-yellow-600">{place.rating}</td>
                                 <td className="px-6 py-4 text-right">
                                     <div className="flex justify-end gap-2">

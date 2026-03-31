@@ -47,10 +47,10 @@ const Culinary = () => {
                             className="mb-48"
                         >
                             <h1 className="text-h1 font-heritage mb-16">
-                                Cita Rasa <span className="text-heritage-gold">Jogja</span>
+                                Cita Rasa <span className="text-heritage-gold">Kalsel</span>
                             </h1>
                             <p className="max-w-2xl text-body opacity-80 leading-relaxed">
-                                Dari kehangatan Gudeg hingga aroma kopi legendaris, temukan pengalaman kuliner yang akan memanjakan setiap selera Anda di jantung Yogyakarta.
+                                Dari kehangatan Gudeg hingga aroma kopi legendaris, temukan pengalaman kuliner yang akan memanjakan setiap selera Anda di jantung Kalimantan Selatan.
                             </p>
                         </motion.div>
 

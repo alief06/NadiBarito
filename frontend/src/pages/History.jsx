@@ -5,51 +5,58 @@ import PageTransition from '../components/PageTransition';
 
 const timelineData = [
     {
-        year: '1588',
-        title: 'Era Kesultanan Mataram',
-        description: 'Awal mula berdirinya Kerajaan Mataram Islam di Kotagede oleh Panembahan Senopati. Menjadi fondasi budaya dan pemerintahan di wilayah Yogyakarta.',
-        image: 'https://images.unsplash.com/photo-1611638362848-0382025164bc?auto=format&fit=crop&w=800&q=80'
+        year: '1526',
+        title: 'Berdirinya Kesultanan Banjar',
+        description: 'Tepat pada 24 September 1526, Pangeran Samudera memeluk Islam dan bergelar Sultan Suriansyah. Beliau memindahkan pusat pemerintahan ke Kuin, menjadikan ini sebagai tonggak awal berdirinya kota Banjarmasin.',
+        image: 'https://images.unsplash.com/photo-1590487930999-56d1c95bf2fb?auto=format&fit=crop&w=800&q=80'
     },
     {
-        year: '1755',
-        title: 'Perjanjian Giyanti',
-        description: 'Pemisahan Mataram menjadi Yogyakarta dan Surakarta. Pangeran Mangkubumi menjadi Sultan Hamengkubuwono I dan mendirikan Keraton Yogyakarta.',
-        image: 'https://images.unsplash.com/photo-1596402184320-417d717867cd?auto=format&fit=crop&w=800&q=80'
+        year: '1600s',
+        title: 'Era Perdagangan Apung',
+        description: 'Banjarmasin berkembang pesat sebagai pusat perdagangan rempah-rempah. Pasar Terapung Muara Kuin mulai terbentuk ketika para pedagang lokal dan mancanegara bertransaksi di atas jukung menyusuri urat nadi Sungai Barito.',
+        image: 'https://images.unsplash.com/photo-1549449852-59530bedc78b?auto=format&fit=crop&w=800&q=80'
     },
     {
-        year: '1945',
-        title: 'Ibukota Perjuangan',
-        description: 'Yogyakarta menjadi Ibukota Republik Indonesia sementara selama agresi militer Belanda. Peran vital Sri Sultan HB IX dalam mendukung kemerdekaan.',
-        image: 'https://images.unsplash.com/photo-1590059060328-9102450503f8?auto=format&fit=crop&w=800&q=80'
-    },
-    {
-        year: '1950',
-        title: 'Daerah Istimewa',
-        description: 'Pengakuan resmi Yogyakarta sebagai Daerah Istimewa melalui UU No. 3 Tahun 1950, sebagai bentuk penghargaan atas jasa dalam perjuangan kemerdekaan.',
-        image: 'https://plus.unsplash.com/premium_photo-1661919589683-f11880119fb7?auto=format&fit=crop&w=800&q=80'
+        year: '1859',
+        title: 'Perang Banjar',
+        description: 'Perang bersejarah melawan kolonial Belanda yang dipimpin oleh Pangeran Antasari dengan semboyan legendaris "Waja Sampai Kaputing" (Berjuang sampai akhir yang gemilang).',
+        image: 'https://images.unsplash.com/photo-1579601053077-3e1140024479?auto=format&fit=crop&w=800&q=80'
     },
     {
         year: '2024+',
-        title: 'Menuju Smart City',
-        description: 'Transformasi Jogja menjadi pusat teknologi dan budaya modern, menggabungkan kearifan lokal dengan inovasi digital masa depan.',
-        image: 'https://images.unsplash.com/photo-1571441864197-0ad08ea5c898?auto=format&fit=crop&w=800&q=80'
+        title: 'Kota Seribu Sungai Modern',
+        description: 'Transformasi Banjarmasin menjadi Smart City pariwisata berbasis sungai terdepan di Indonesia. Menjaga keabadian tradisi Sasirangan dan pasar apung di tengah modernisasi.',
+        image: 'https://images.unsplash.com/photo-1596402184320-417d7178b2cd?auto=format&fit=crop&w=800&q=80'
     }
 ];
 
 const History = () => {
     return (
         <PageTransition>
-            <div className="bg-heritage-cream dark:bg-heritage-dark min-h-screen">
-                <Section>
+            <div className="relative min-h-screen bg-heritage-cream dark:bg-heritage-dark overflow-hidden">
+                {/* Animasi Riak Air (Water Ripple) Background */}
+                <motion.div 
+                    className="absolute inset-0 pointer-events-none z-0"
+                    animate={{ 
+                        scale: [1, 1.05, 1], 
+                        opacity: [0.3, 0.5, 0.3] 
+                    }}
+                    transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+                >
+                    <div className="absolute top-0 left-0 w-[80%] h-[120%] bg-[radial-gradient(circle,rgba(43,103,119,0.1)_0%,rgba(10,28,32,0)_70%)] blur-2xl"></div>
+                    <div className="absolute bottom-0 right-0 w-[100%] h-[100%] bg-[radial-gradient(circle,rgba(255,140,0,0.05)_0%,rgba(10,28,32,0)_60%)] blur-2xl"></div>
+                </motion.div>
+                
+                <Section className="relative z-10">
                     <Container>
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             className="text-center mb-64"
                         >
-                            <h1 className="text-h1 font-heritage">Jejak Waktu <span className="text-heritage-gold">Niranta</span></h1>
-                            <p className="max-w-2xl mx-auto text-body opacity-80">
-                                Menelusuri sejarah panjang Yogyakarta dari era kerajaan hingga transformasi menjadi kota cerdas modern.
+                            <h1 className="text-h1 font-heritage">Jejak Waktu <span className="text-heritage-gold">Bandarmasih</span></h1>
+                            <p className="max-w-2xl mx-auto text-body opacity-80 mt-16 text-pretty leading-relaxed">
+                                Menyelami narasi heroik dan evolusi Kota Seribu Sungai. Dari pelabuhan rempah Kesultanan Banjar di abad ke-16, hingga keanggunan kota air modern.
                             </p>
                         </motion.div>
 
