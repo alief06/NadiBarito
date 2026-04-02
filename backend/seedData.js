@@ -65,6 +65,66 @@ const places = [
         description: 'Sentra industri kerajinan kain tradisional Kalsel (Sasirangan). Pengunjung dapat melihat langsung proses pembuatan dan berbelanja suvenir autentik.',
         images: ['https://images.unsplash.com/photo-1611638363034-c90ca9fcf96f?auto=format&fit=crop&w=1200&q=80'],
         rating: 4.8
+    },
+    {
+        name: 'Pulau Kembang',
+        category: 'Alam',
+        transport_type: 'Sungai',
+        district: 'Alalak',
+        location: { lat: -3.2847, lng: 114.5583, address: 'Muara Sungai Barito' },
+        description: 'Delta yang menjadi habitat alami bagi ratusan kera ekor panjang dan bekantan. Tempat keramat bagi etnis Tionghoa dan Banjar dengan keberadaan altar persahabatan.',
+        images: ['https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?auto=format&fit=crop&w=1200&q=80'],
+        rating: 4.5
+    },
+    {
+        name: 'Siring Piere Tendean',
+        category: 'Landmark',
+        transport_type: 'Darat',
+        district: 'Banjarmasin Tengah',
+        location: { lat: -3.3185, lng: 114.5935, address: 'Jl. Piere Tendean' },
+        description: 'Area rekreasi pinggir sungai yang paling populer. Pusat keramaian kota dengan akses ke Menara Pandang, Patung Bekantan, dan dermaga klotok susur sungai.',
+        images: ['https://images.unsplash.com/photo-1596402184320-417d7178b2cd?auto=format&fit=crop&w=1200&q=80'],
+        rating: 4.9
+    },
+    {
+        name: 'Kubah Basirih',
+        category: 'Religi',
+        transport_type: 'Sungai',
+        district: 'Banjarmasin Barat',
+        location: { lat: -3.3444, lng: 114.5711, address: 'Jl. Keramat Basirih' },
+        description: 'Situs wisata religi makam Al Habib Hamid bin Abbas Bahasyim (Habib Basirih). Destinasi peziarah yang sering diakses menggunakan transportasi sungai.',
+        images: ['https://images.unsplash.com/photo-1590487930999-56d1c95bf2fb?auto=format&fit=crop&w=1200&q=80'],
+        rating: 4.8
+    },
+    {
+        name: 'Pasar Terapung Lok Baintan',
+        category: 'Budaya',
+        transport_type: 'Sungai',
+        district: 'Sungai Tabuk',
+        location: { lat: -3.3131, lng: 114.6644, address: 'Sungai Martapura, Lok Baintan' },
+        description: 'Pasar terapung yang lebih tradisional dan alami. Berlangsung setiap pagi mulai subuh, menawarkan pengalaman otentik kehidupan sungai Banjar.',
+        images: ['https://images.unsplash.com/photo-1549449852-59530bedc78b?auto=format&fit=crop&w=1200&q=80'],
+        rating: 4.9
+    },
+    {
+        name: 'Jembatan Barito',
+        category: 'Landmark',
+        transport_type: 'Darat',
+        district: 'Anjir Muara',
+        location: { lat: -3.3106, lng: 114.5422, address: 'Trans Kalimantan' },
+        description: 'Jembatan gantung terpanjang di Indonesia pada masanya (1.082 meter) yang membelah Sungai Barito, menghubungkan Kalsel dan Kalteng.',
+        images: ['https://images.unsplash.com/photo-1590234193582-78832a8747f5?auto=format&fit=crop&w=1200&q=80'],
+        rating: 4.7
+    },
+    {
+        name: 'Hutan Mangrove Rambai',
+        category: 'Alam',
+        transport_type: 'Sungai',
+        district: 'Kuripan',
+        location: { lat: -3.2000, lng: 114.5000, address: 'Anjir Muara' },
+        description: 'Kawasan konservasi mangrove yang rimbun, tempat pengamatan Bekantan dan burung migran melalui jalur susur sungai yang tenang.',
+        images: ['https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80'],
+        rating: 4.6
     }
 ];
 
@@ -84,6 +144,22 @@ const culinary = [
         description: 'Nasi kuning khas Banjar dengan lauk bumbu masak habang (bumbu merah pekat yang rasanya manis gurih) dipadu dengan ikan haruan.',
         images: ['https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=1200&q=80'],
         rating: 4.8
+    },
+    {
+        name: 'Ketupat Kandangan H. Abbas',
+        priceRange: 'Rp 25.000 - Rp 40.000',
+        location: { lat: -3.3150, lng: 114.5900, address: 'Jl. Lambung Mangkurat' },
+        description: 'Ketupat khas Kandangan dengan ikan gabus (haruan) asap yang gurih dan kuah bersantan kental nan kaya rempah.',
+        images: ['https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1200&q=80'],
+        rating: 4.8
+    },
+    {
+        name: 'Bingka Barandam',
+        priceRange: 'Rp 15.000 - Rp 30.000',
+        location: { lat: -3.3180, lng: 114.5950, address: 'Pasar Wadai Ramadhan' },
+        description: 'Kue khas Banjar yang lembut, manis, dan lumer di mulut. Terbuat dari telur dan tepung dengan siraman air gula beraroma pandan.',
+        images: ['https://images.unsplash.com/photo-1582967788606-a171c1080cb0?auto=format&fit=crop&w=1200&q=80'],
+        rating: 4.7
     }
 ];
 
@@ -114,8 +190,8 @@ const cultures = [
 
 const seedDB = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/nirantajogja');
-        console.log('MongoDB Connected for Banjarmasin Specific...');
+        await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/nadibarito');
+        console.log('MongoDB Connected for NADIBARITO System...');
 
         await Place.deleteMany({});
         await Culinary.deleteMany({});

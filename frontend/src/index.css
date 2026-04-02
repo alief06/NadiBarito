@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
 @theme {
   --color-brand-orange: #f97316;
@@ -11,9 +11,9 @@
   --color-heritage-dark-surface: #112F36; /* Permukaan nipah/sungai gelap */
   --color-heritage-dark-text: #EAF4F4;
 
-  --font-heritage: "Cormorant Garamond", serif;
-  --font-sans: "Inter", sans-serif;
-  --font-playfair: "Playfair Display", serif;
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
 
   --spacing-4: 4px;
   --spacing-8: 8px;
@@ -139,7 +139,33 @@
   @apply hover:scale-[1.03] transition-transform duration-300 cursor-pointer shadow-lg;
 }
 
-/* Menyembunyikan Watermark Spline global */
-a[href*="spline.design"] {
+@utility drop-cap {
+  &::first-letter {
+    float: left;
+    font-size: 3.5rem;
+    line-height: 0.9;
+    padding-right: 0.1em;
+    font-weight: 700;
+    font-family: var(--font-serif);
+    color: var(--color-brand-orange);
+    text-transform: uppercase;
+  }
+}
+
+/* Nuclear Spline Watermark Removal */
+canvas + a,
+canvas ~ a,
+#spline-watermark,
+.spline-watermark,
+[class*="spline-watermark"],
+a[href*="spline.design"],
+spline-viewer::part(watermark) {
   display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  position: absolute !important;
+  clip: rect(0 0 0 0) !important;
 }

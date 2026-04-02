@@ -9,11 +9,36 @@
     content="Jelajahi keajaiban Banjarmasin melalui NADIBARITO. Peta interaktif 15+ destinasi, info budaya Sasirangan, dan visual 3D Sungai Barito yang imersif." />
   <title>NADIBARITO</title>
   <script>
-    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    // Perombakan Brand: Force Dark Mode for Premium Aesthetic
+    document.documentElement.classList.add('dark');
+    localStorage.setItem('theme', 'dark');
+
+    // Truly remove Spline watermark via MutationObserver
+    const removeSplineWatermark = () => {
+      const selectors = [
+        '#spline-watermark',
+        '.spline-watermark',
+        'a[href*="spline.design"]',
+        '[class*="spline_watermark"]'
+      ];
+      
+      selectors.forEach(selector => {
+        document.querySelectorAll(selector).forEach(el => el.remove());
+      });
+
+      // Pierce shadow DOM for spline-viewer if present
+      document.querySelectorAll('spline-viewer').forEach(viewer => {
+        if (viewer.shadowRoot) {
+          const watermark = viewer.shadowRoot.querySelector('#watermark') || 
+                           viewer.shadowRoot.querySelector('.spline-watermark');
+          if (watermark) watermark.remove();
+        }
+      });
+    };
+
+    const observer = new MutationObserver(removeSplineWatermark);
+    observer.observe(document.body, { childList: true, subtree: true });
+    window.addEventListener('load', removeSplineWatermark);
   </script>
 </head>
 

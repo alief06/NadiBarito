@@ -70,15 +70,15 @@ const Hero = () => {
                             transition: { staggerChildren: 0.1 }
                         }
                     }}
-                    className="text-5xl md:text-8xl lg:text-[7rem] font-sans font-bold text-white mb-16 md:mb-24 drop-shadow-2xl leading-[1.1] md:leading-none tracking-tight flex flex-col items-center"
+                    className="text-7xl md:text-9xl font-serif text-white mb-12 drop-shadow-2xl leading-[0.8] flex flex-col items-center tracking-[-0.04em]"
                 >
                     <div className="flex overflow-hidden">
                         {"NADI".split("").map((char, index) => (
                             <motion.span 
                                 key={`ex-${index}`}
                                 variants={{
-                                    hidden: { y: 50, opacity: 0 },
-                                    visible: { y: 0, opacity: 1, transition: { type: "spring", damping: 12, stiffness: 100 } }
+                                    hidden: { y: 100, opacity: 0 },
+                                    visible: { y: 0, opacity: 1, transition: { type: "spring", damping: 12, stiffness: 80 } }
                                 }}
                                 className="inline-block"
                             >
@@ -87,13 +87,13 @@ const Hero = () => {
                         ))}
                     </div>
                     
-                    <div className="font-serif text-[#f59e0b] italic drop-shadow-xl flex overflow-hidden -ml-2">
+                    <div className="text-[#f59e0b] italic drop-shadow-xl flex overflow-hidden -mt-4 md:-mt-8">
                         {"BARITO".split("").map((char, index) => (
                             <motion.span 
                                 key={`bjm-${index}`}
                                 variants={{
-                                    hidden: { y: 50, opacity: 0 },
-                                    visible: { y: 0, opacity: 1, transition: { type: "spring", damping: 12, stiffness: 100 } }
+                                    hidden: { y: 100, opacity: 0 },
+                                    visible: { y: 0, opacity: 1, transition: { type: "spring", damping: 12, stiffness: 80 } }
                                 }}
                                 className="inline-block"
                             >
@@ -108,16 +108,16 @@ const Hero = () => {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.8, duration: 1, ease: "easeOut" }}
-                    className="w-full max-w-3xl mx-auto mt-8 md:mt-16"
+                    className="w-full max-w-3xl mx-auto mt-8 md:mt-12"
                 >
-                    <form onSubmit={handleSearch} className="relative flex items-center w-full bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-full shadow-2xl group focus-within:bg-white/20 transition-colors duration-500">
-                        <div className="pl-16 pr-8 text-white/80 group-focus-within:text-white transition-colors">
-                            <Search size={22} />
+                    <form onSubmit={handleSearch} className="relative flex items-center w-full bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-full shadow-2xl group focus-within:bg-white/20 transition-colors duration-500">
+                        <div className="pl-12 pr-6 text-white/60 group-focus-within:text-white transition-colors">
+                            <Search size={20} />
                         </div>
                         <input 
                             type="text" 
                             placeholder="Cari Susur Sungai, Soto Banjar, atau Sasirangan..." 
-                            className="flex-1 bg-transparent border-none outline-none text-white placeholder:text-white/60 text-base md:text-lg font-medium px-8 py-8 md:py-12 w-full"
+                            className="flex-1 bg-transparent border-none outline-none text-white placeholder:text-white/50 text-sm md:text-base font-sans px-6 py-4 w-full"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
@@ -125,14 +125,14 @@ const Hero = () => {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             type="submit" 
-                            className="bg-[#f59e0b] hover:bg-yellow-500 text-white px-24 md:px-32 py-12 md:py-16 rounded-full font-bold uppercase tracking-wider text-xs md:text-small shadow-[0_0_15px_rgba(245,158,11,0.5)] transition-all ml-12"
+                            className="bg-[#f59e0b] hover:bg-yellow-500 text-white px-12 md:px-16 py-8 rounded-full font-bold uppercase tracking-meta text-[10px] shadow-[0_0_15px_rgba(245,158,11,0.5)] transition-all ml-4 font-sans"
                         >
                             Eksplor
                         </motion.button>
                     </form>
                     
                     {/* Suggestions */}
-                    <div className="flex flex-wrap justify-center gap-8 mt-16 md:mt-24">
+                    <div className="flex flex-wrap justify-center gap-6 mt-12 md:mt-16">
                         {['Kuliner Banjar', 'Susur Sungai', 'Kampung Sasirangan', 'Siring Piere Tendean'].map((tag, i) => (
                             <button 
                                 key={i} 
@@ -141,7 +141,7 @@ const Hero = () => {
                                     setSearchQuery(tag);
                                     navigate(`/explore?search=${tag}`);
                                 }}
-                                className="px-12 md:px-16 py-6 md:py-8 rounded-full bg-black/40 hover:bg-white/20 border border-white/10 backdrop-blur-md text-white/80 hover:text-white text-xs font-medium transition-colors"
+                                className="px-10 py-4 rounded-full bg-black/40 hover:bg-white/20 border border-white/10 backdrop-blur-md text-white/50 hover:text-white text-mono-label font-mono transition-colors"
                             >
                                 {tag}
                             </button>

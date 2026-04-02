@@ -1,55 +1,46 @@
 import React, { useState, useEffect } from 'react';
-import api from '../utils/api';
 import PlaceCard from '../components/PlaceCard';
 import { Search, Filter, Compass, Sparkles, SlidersHorizontal, MapPin } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PlaceSkeleton } from '../components/Skeleton';
 import PageTransition from '../components/PageTransition';
-import { getRecommendations } from '../utils/recommendationSystem';
 import { Container, Section, Grid } from '../components/Layout';
 import Button from '../components/Button';
 import Badge from '../components/Badge';
 
+import { useTourismStore } from '../store/useTourismStore';
+
 const Explore = () => {
-    const [places, setPlaces] = useState([]);
+    const { places } = useTourismStore();
+    const [filteredPlaces, setFilteredPlaces] = useState([]);
     const [recommendations, setRecommendations] = useState([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
     const [category, setCategory] = useState('');
-    const [user, setUser] = useState(null);
     const [showFilters, setShowFilters] = useState(false);
 
     useEffect(() => {
-        const storedUser = JSON.parse(localStorage.getItem('user'));
-        setUser(storedUser);
-    }, []);
+        // Simulate loading for better UX
+        setLoading(true);
+        const timer = setTimeout(() => {
+            const filtered = places.filter(place => {
+                const matchesSearch = place.name.toLowerCase().includes(search.toLowerCase()) || 
+                                     place.description.toLowerCase().includes(search.toLowerCase());
+                const matchesCategory = category === '' || place.category === category;
+                return matchesSearch && matchesCategory;
+            });
+            setFilteredPlaces(filtered);
 
-    useEffect(() => {
-        const fetchPlaces = async () => {
-            try {
-                setLoading(true);
-                const response = await api.get(`/places`, {
-                    params: { category, search }
-                });
-                setPlaces(response.data);
-
-                if (!search && !category) {
-                    const favIds = user?.favorites || [];
-                    const recs = getRecommendations(response.data, [], favIds);
-                    setRecommendations(recs);
-                } else {
-                    setRecommendations([]);
-                }
-            } catch (err) {
-                console.error(err);
-            } finally {
-                setLoading(false);
+            if (!search && !category) {
+                // Just use first 4 as recommendations for now
+                setRecommendations(places.slice(0, 4));
+            } else {
+                setRecommendations([]);
             }
-        };
-
-        const debounce = setTimeout(fetchPlaces, 400);
-        return () => clearTimeout(debounce);
-    }, [search, category, user]);
+            setLoading(false);
+        }, 300);
+        return () => clearTimeout(timer);
+    }, [search, category, places]);
 
     const categories = [
         { id: '', label: 'Semua' },
@@ -142,10 +133,10 @@ const Explore = () => {
                                 </AnimatePresence>
 
                                 {/* Main Results */}
-                                {places.length > 0 ? (
+                                {filteredPlaces.length > 0 ? (
                                     <Grid cols={3}>
-                                        {places.map((place) => (
-                                            <PlaceCard key={place._id} place={place} />
+                                        {filteredPlaces.map((place) => (
+                                            <PlaceCard key={place.id} place={place} />
                                         ))}
                                     </Grid>
                                 ) : (

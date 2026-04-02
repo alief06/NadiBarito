@@ -2,23 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, useMap, ZoomControl } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { BANJARMASIN_TOURISM_DATA } from '../data/tourismData';
 import { MapPin, Navigation, Star, Clock, X, ArrowRight, Info } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import PageTransition from '../components/PageTransition';
 import Button from '../components/Button';
+import { useTourismStore } from '../store/useTourismStore';
 
 // Tema Gelap Berkualitas Tinggi untuk Open-Source Map
 const DARK_TILE_LAYER = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";
 
 const getCategoryColor = (category) => {
     switch(category) {
-        case 'Wisata Sungai': return '#3b82f6';
-        case 'Religi': return '#10b981';
-        case 'Kuliner': return '#f59e0b';
+        case 'Budaya': return '#f59e0b';
+        case 'Alam': return '#10b981';
         case 'Sejarah': return '#8b5cf6';
-        case 'Belanja': return '#ec4899';
-        case 'Landmark': return '#eab308';
+        case 'Modern': return '#3b82f6';
         default: return '#ef4444';
     }
 };
@@ -52,7 +50,7 @@ const UserLocationIcon = L.divIcon({
     iconAnchor: [12, 12]
 });
 
-const CATEGORIES = ['Semua', 'Wisata Sungai', 'Religi', 'Sejarah', 'Kuliner', 'Landmark', 'Belanja'];
+const CATEGORIES = ['Semua', 'Budaya', 'Alam', 'Sejarah', 'Modern'];
 
 // Hitung Garis Batas Otomatis agar Peta Fokus ke Tujuan
 const MapBoundsAdjuster = ({ data, userLoc }) => {
@@ -81,14 +79,15 @@ const MapBoundsAdjuster = ({ data, userLoc }) => {
 };
 
 const InteractiveMap = () => {
+    const { places } = useTourismStore();
     const [activeCategory, setActiveCategory] = useState('Semua');
     const [selectedPlace, setSelectedPlace] = useState(null);
     const [userLoc, setUserLoc] = useState(null);
     const [distanceMsg, setDistanceMsg] = useState('');
 
     const filteredData = activeCategory === 'Semua' 
-        ? BANJARMASIN_TOURISM_DATA 
-        : BANJARMASIN_TOURISM_DATA.filter(place => place.category === activeCategory);
+        ? places 
+        : places.filter(place => place.category === activeCategory);
 
     // Rumus Haversine untuk Navigasi Cerdas
     useEffect(() => {

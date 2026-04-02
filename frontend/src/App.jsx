@@ -1,7 +1,9 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useState, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
+import { Toaster } from 'sonner';
+import SplashScreen from './components/SplashScreen';
 
 // Lazy loading components
 const Home = lazy(() => import('./pages/Home'));
@@ -11,37 +13,50 @@ const Culinary = lazy(() => import('./pages/Culinary'));
 const CulinaryDetail = lazy(() => import('./pages/CulinaryDetail'));
 const InteractiveMap = lazy(() => import('./pages/InteractiveMap'));
 const SmartPlanner = lazy(() => import('./pages/SmartPlanner'));
-const Auth = lazy(() => import('./pages/Auth'));
 const NotFound = lazy(() => import('./pages/NotFound'));
-const UserDashboard = lazy(() => import('./pages/UserDashboard'));
-const Profile = lazy(() => import('./pages/Profile'));
 
 const History = lazy(() => import('./pages/History'));
 const Culture = lazy(() => import('./pages/Culture'));
 const ModernKalsel = lazy(() => import('./pages/ModernKalsel'));
+const AdminCommandCenter = lazy(() => import('./pages/AdminCommandCenter'));
 
 const MainLayout = lazy(() => import('./components/MainLayout'));
-const ProtectedRoute = lazy(() => import('./components/ProtectedRoute'));
-const AdminLayout = lazy(() => import('./components/AdminLayout'));
-const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
-const AdminPlaces = lazy(() => import('./pages/admin/AdminPlaces'));
-const AdminCulinary = lazy(() => import('./pages/admin/AdminCulinary'));
-const AdminUsers = lazy(() => import('./pages/admin/AdminUsers'));
-const AdminReviews = lazy(() => import('./pages/admin/AdminReviews'));
-const AdminEvents = lazy(() => import('./pages/admin/AdminEvents'));
-const AdminCulture = lazy(() => import('./pages/admin/AdminCulture'));
 
 const LoadingFallback = () => (
-  <div className="min-h-screen flex items-center justify-center bg-heritage-cream dark:bg-heritage-dark text-heritage-gold">
+  <div className="min-h-screen flex items-center justify-center bg-[#050505] text-brand-orange">
     <Loader2 className="animate-spin" size={48} />
   </div>
 );
 
 function App() {
+  const [showSplash, setShowSplash] = useState(true);
   const location = useLocation();
 
   return (
-    <Suspense fallback={<LoadingFallback />}>
+    <>
+      <Toaster 
+        position="top-right" 
+        richColors 
+        expand={false} 
+        theme="dark"
+        toastOptions={{
+          style: {
+            background: 'rgba(20, 20, 20, 0.8)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            color: '#fff',
+            fontFamily: 'Plus Jakarta Sans, sans-serif',
+          },
+        }}
+      />
+      
+      <AnimatePresence mode="wait">
+        {showSplash && (
+          <SplashScreen key="splash" finishLoading={() => setShowSplash(false)} />
+        )}
+      </AnimatePresence>
+
+      <Suspense fallback={<LoadingFallback />}>
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           {/* Main Application with Navbar and Footer */}
@@ -56,30 +71,17 @@ function App() {
             <Route path="culinary/:id" element={<CulinaryDetail />} />
             <Route path="map" element={<InteractiveMap />} />
             <Route path="planner" element={<SmartPlanner />} />
-            <Route path="user/itinerary" element={<UserDashboard />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="login" element={<Auth mode="login" />} />
-            <Route path="register" element={<Auth mode="register" />} />
           </Route>
 
-          {/* Admin Section (Protected) */}
-          <Route element={<ProtectedRoute adminOnly={true} />}>
-            <Route path="/admin" element={<AdminLayout />}>
-              <Route index element={<AdminDashboard />} />
-              <Route path="places" element={<AdminPlaces />} />
-              <Route path="culinary" element={<AdminCulinary />} />
-              <Route path="users" element={<AdminUsers />} />
-              <Route path="reviews" element={<AdminReviews />} />
-              <Route path="events" element={<AdminEvents />} />
-              <Route path="culture" element={<AdminCulture />} />
-            </Route>
-          </Route>
+          {/* Hidden Admin Command Center - No Layout, Direct Secret Route */}
+          <Route path="/nadibarito-command-v1-9922" element={<AdminCommandCenter />} />
 
           {/* Standalone Pages (No Navbar/Footer) */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AnimatePresence>
-    </Suspense>
+      </Suspense>
+    </>
   );
 }
 

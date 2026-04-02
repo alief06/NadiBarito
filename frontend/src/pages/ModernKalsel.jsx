@@ -5,13 +5,7 @@ import PageTransition from '../components/PageTransition';
 import Card, { CardContent } from '../components/Card';
 import Badge from '../components/Badge';
 import { Cpu, Rocket, BarChart3, Globe, Zap, Users } from 'lucide-react';
-
-const stats = [
-    { label: 'Penetrasi Digital', value: 85, color: 'bg-heritage-gold' },
-    { label: 'Startup Lokal', value: 120, color: 'bg-heritage-brown' },
-    { label: 'Smart City Index', value: 4.2, color: 'bg-heritage-gold', max: 5 },
-    { label: 'Konektivitas Publik', value: 92, color: 'bg-heritage-brown' }
-];
+import { useTourismStore } from '../store/useTourismStore';
 
 const startups = [
     { name: 'KalselTech', desc: 'Solusi waste management berbasis AI.', sector: 'Eco-tech' },
@@ -20,6 +14,7 @@ const startups = [
 ];
 
 const ModernKalsel = () => {
+    const { cityStats } = useTourismStore();
     return (
         <PageTransition>
             <div className="bg-heritage-cream dark:bg-heritage-dark min-h-screen">
@@ -89,7 +84,7 @@ const ModernKalsel = () => {
                                     Tingkat adopsi teknologi yang tinggi di Kalimantan Selatan menjadikannya hub digital potensial di Indonesia, menarik minat talenta global dan investor.
                                 </p>
                                 <div className="space-y-24">
-                                    {stats.map((s, idx) => (
+                                    {cityStats.map((s, idx) => (
                                         <div key={idx} className="space-y-8">
                                             <div className="flex justify-between text-small font-bold">
                                                 <span>{s.label}</span>
