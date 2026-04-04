@@ -34,11 +34,16 @@ const Button = ({
             type={type}
             disabled={disabled || isLoading}
             onClick={onClick}
-            className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
+            aria-label={props['aria-label'] || (typeof children === 'string' ? children : undefined)}
+            aria-busy={isLoading}
+            aria-disabled={disabled || isLoading}
+            className={`${baseStyles} focus:outline-none focus:ring-2 focus:ring-heritage-gold focus:ring-offset-2 dark:focus:ring-offset-black ${variants[variant]} ${sizes[size]} ${className}`}
             {...props}
         >
             {isLoading ? (
-                <div className="w-20 h-20 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                <div role="status" className="w-20 h-20 border-2 border-current border-t-transparent rounded-full animate-spin">
+                    <span className="sr-only">Memuat...</span>
+                </div>
             ) : null}
             {children}
         </motion.button>

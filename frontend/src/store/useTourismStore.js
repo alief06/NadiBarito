@@ -1,66 +1,139 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { destinationData } from '../data/destinationData';
 
-export const useTourismStore = create(
-  persist(
-    (set) => ({
-      // 1. 15 Titik Wisata (Initial Data)
-      places: [
-        { id: 1, name: 'Siring Menara Pandang', lat: -3.3191, lng: 114.5912, category: 'Budaya', bestTime: '16:00 - 21:00', description: 'Ikon wisata kota Banjarmasin di pinggir sungai Martapura.', image: 'https://images.unsplash.com/photo-1596402184320-417d717867cd' },
-        { id: 2, name: 'Pasar Terapung Lok Baintan', lat: -3.3166, lng: 114.5908, category: 'Budaya', bestTime: '05:00 - 08:00', description: 'Pasar tradisional otentik di atas perahu jukung.', image: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62' },
-        { id: 3, name: 'Masjid Raya Sabilal Muhtadin', lat: -3.3175, lng: 114.5900, category: 'Sejarah', bestTime: '08:00 - 17:00', description: 'Masjid terbesar di Kalimantan Selatan dengan arsitektur megah.', image: 'https://images.unsplash.com/photo-1590073844006-33379778ae09' },
-        { id: 4, name: 'Museum Lambung Mangkurat', lat: -3.4411, lng: 114.8431, category: 'Sejarah', bestTime: '09:00 - 15:00', description: 'Pusat pelestarian sejarah dan budaya Banjar.', image: 'https://images.unsplash.com/photo-1518998053574-53f1f1172f3f' },
-        { id: 5, name: 'Pulau Kaget', lat: -3.4211, lng: 114.4922, category: 'Alam', bestTime: '06:00 - 10:00', description: 'Habitat alami monyet Bekantan endemik Kalimantan.', image: 'https://images.unsplash.com/photo-1540573133985-87b6da6d54a9' },
-        { id: 6, name: 'Taman Hutan Raya Sultan Adam', lat: -3.5122, lng: 114.9211, category: 'Alam', bestTime: '07:00 - 16:00', description: 'Kawasan konservasi dengan pemandangan perbukitan hijau.', image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470' },
-        { id: 7, name: 'Kampung Sasirangan', lat: -3.3211, lng: 114.5944, category: 'Budaya', bestTime: '09:00 - 18:00', description: 'Pusat edukasi dan belanja kain tradisional Sasirangan.', image: 'https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17' },
-        { id: 8, name: 'Duta Mall Banjarmasin', lat: -3.3255, lng: 114.5988, category: 'Modern', bestTime: '10:00 - 22:00', description: 'Pusat perbelanjaan terbesar di Kalimantan Selatan.', image: 'https://images.unsplash.com/photo-1567449303078-47baad696431' },
-        { id: 9, name: 'Danau Biru Pengaron', lat: -3.3988, lng: 115.0122, category: 'Alam', bestTime: '08:00 - 16:00', description: 'Bekas tambang yang berubah menjadi telaga biru kristal.', image: 'https://images.unsplash.com/photo-1532703108233-69111d554cb4' },
-        { id: 10, name: 'Siring Piere Tendean', lat: -3.3188, lng: 114.5922, category: 'Budaya', bestTime: '17:00 - 22:00', description: 'Ruang publik favorit untuk wisata kuliner pinggir sungai.', image: 'https://images.unsplash.com/photo-1596402184320-417d717867cd' },
-        { id: 11, name: 'Hutan Pinus Mentaos', lat: -3.4422, lng: 114.8322, category: 'Alam', bestTime: '09:00 - 17:00', description: 'Destinasi asri di tengah kota Banjarbaru.', image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e' },
-        { id: 12, name: 'Bukit Batas', lat: -3.5333, lng: 114.9888, category: 'Alam', bestTime: '04:00 - 10:00', description: 'Raja Ampatnya Kalimantan Selatan di atas Waduk Riam Kanan.', image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b' },
-        { id: 13, name: 'Pasar Terapung Muara Kuin', lat: -3.3011, lng: 114.5722, category: 'Budaya', bestTime: '05:00 - 07:00', description: 'Legenda pasar terapung tertua di Banjarmasin.', image: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62' },
-        { id: 14, name: 'Candi Agung Amuntai', lat: -2.4211, lng: 115.2422, category: 'Sejarah', bestTime: '08:00 - 15:00', description: 'Situs sejarah kerajaan Negara Dipa abad ke-14.', image: 'https://images.unsplash.com/photo-1590073844006-33379778ae09' },
-        { id: 15, name: 'Kiram Park', lat: -3.5011, lng: 114.9522, category: 'Modern', bestTime: '08:00 - 18:00', description: 'Wisata buatan modern dengan sentuhan bambu dan panorama pegunungan.', image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef' },
-      ],
+export const useTourismStore = create((set) => ({
+    places: destinationData,
+    culinary: [
+        {
+            id: 'c1',
+            name: 'Lontong Orari',
+            category: 'Kuliner',
+            district: 'Banjarmasin Tengah',
+            isLegendary: true,
+            description: 'Destinasi gastronomi wajib dengan menu Lontong Segitiga yang legendaris. Disajikan dengan Haruan (Ikan Gabus) Masak Habang dan telur bebek dalam porsi yang melimpah.',
+            image: 'https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=800&q=80',
+            lat: -3.3141,
+            lng: 114.5984,
+            rating: 4.9,
+            address: 'Jl. Simpang Sungai Mesa, Banjarmasin Tengah',
+            mustTry: 'Lontong Haruan Masak Habang'
+        },
+        {
+            id: 'c2',
+            name: 'Soto Banjar Bang Amat',
+            category: 'Kuliner',
+            district: 'Banjarmasin Timur',
+            description: 'Soto Banjar paling ikonik di tepian sungai. Kuah bening kaya rempah dengan sate ayam bumbu kacang sebagai pendamping sempurna sambil menikmati hilir mudik kelotok.',
+            image: 'https://images.unsplash.com/photo-1547928576-a4a33237ce35?auto=format&fit=crop&w=800&q=80',
+            lat: -3.3044,
+            lng: 114.6132,
+            rating: 4.8,
+            address: 'Jl. Banua Anyar, Banjarmasin Timur',
+            mustTry: 'Soto Banjar Spesial'
+        },
+        {
+            id: 'c3',
+            name: 'Mie Bancir Kayutangi',
+            category: 'Kuliner',
+            district: 'Banjarmasin Utara',
+            description: 'Kreasi Mie Banjar dengan kuah kental "setengah basah". Disajikan premium dengan topping daging ayam, telur bebek, dan limau kuit yang menyegarkan.',
+            image: 'https://images.unsplash.com/photo-1612600776451-35a0d3376b08?auto=format&fit=crop&w=800&q=80',
+            lat: -3.2988,
+            lng: 114.5888,
+            rating: 4.7,
+            address: 'Jl. Brigjend H. Hasan Basri, Kayutangi',
+            mustTry: 'Mie Bancir Telur Bebek'
+        },
+        {
+            id: 'c4',
+            name: 'Sate Tulang & Sop Banjar',
+            category: 'Kuliner',
+            district: 'Banjarmasin Tengah',
+            description: 'Kuliner malam paling dicari. Sate tulang dengan bumbu habang yang meresap sempurna, berpadu dengan Sop Banjar hangat yang kaya akan kaldu sumsum.',
+            image: 'https://images.unsplash.com/photo-1529692236671-61f93ef46450?auto=format&fit=crop&w=800&q=80',
+            lat: -3.3216,
+            lng: 114.5947,
+            rating: 4.8,
+            address: 'Pusat Kuliner Malam Banjarmasin Tengah',
+            mustTry: 'Sate Tulang Habang'
+        },
+        {
+            id: 'c5',
+            name: 'Wadai Bingka Hj. Enong',
+            category: 'Kuliner',
+            district: 'Banjarmasin Timur',
+            description: 'Identitas manis kota Banjarmasin. Bingka bakar dengan tekstur lembut dan aroma nangka/kentang yang khas, menjadi primadona buah tangan Kalimantan Selatan.',
+            image: 'https://images.unsplash.com/photo-1509365465985-25d11c17e812?auto=format&fit=crop&w=800&q=80',
+            lat: -3.3300, city: 'Banjarmasin',
+            lng: 114.6100,
+            rating: 4.9,
+            address: 'Gerai Pusat Hj. Enong Banjarmasin',
+            mustTry: 'Bingka Kentang Bakar'
+        }
+    ],
+    cityStats: [
+        { label: 'Literasi Digital', value: 82, max: 100, color: 'bg-orange-500' },
+        { label: 'Adopsi QRIS', value: 70, max: 100, color: 'bg-yellow-500' },
+        { label: 'Fiber Optic', value: 95, max: 100, color: 'bg-blue-500' },
+        { label: 'Kualitas Sungai', value: 7.2, max: 10, color: 'bg-emerald-500' }
+    ],
+    
+    // Missing States
+    favorites: [],
+    reviews: [],
+    cultureNarrative: "Di Banjarmasin, budaya tidak tersimpan di museum, ia mengalir di sungai, terdengar di madihin, dan tertenun di sasirangan.",
+    cultureCategories: {
+        riverine: {
+            title: "Riverine Heritage",
+            description: "Kehidupan yang berdenyut di atas riak Barito, di mana air adalah jalan dan jukung adalah nyawa.",
+            items: [
+                { id: "rh1", title: "Pasar Terapung", subtitle: "Urat Nadi Tradisi", fact: "Praktik barter masih bertahan secara natural di Pasar Terapung Kuin dan Lok Baintan." },
+                { id: "rh2", title: "Rumah Lanting", subtitle: "Arsitektur Terapung", fact: "Rumah Lanting memiliki fondasi batang pohon besar yang membuatnya bisa naik-turun mengikuti pasang surut sungai." },
+                { id: "rh3", title: "Jukung", subtitle: "Transportasi Purba", fact: "Jukung Banjar dibangun menggunakan teknik pembakaran lambung untuk melebarkan kayu tanpa sambungan paku." }
+            ]
+        },
+        folkArts: {
+            title: "Folk Arts",
+            description: "Warisan tutur dan kriya yang merekam memori kolektif masyarakat di setiap dentuman rebana dan helai benang.",
+            items: [
+                { id: "fa1", title: "Madihin", subtitle: "Seni Pantun Ritmis", fact: "Dituturkan secara improvisasi berbalas pantun sambil menabuh rebana kecil bernama Tarbang.", hasListen: true },
+                { id: "fa2", title: "Mamanda", subtitle: "Teater Rakyat", fact: "Teater tradisional bermuatan kritik sosial yang dikemas dengan komedi satir khas Banjar." },
+                { id: "fa3", title: "Kain Sasirangan", subtitle: "Batik Pamali", fact: "Sasirangan dulunya adalah kain obat yang ditenun secara spiritual (batik pamali) untuk menyembuhkan penyakit tertentu." }
+            ]
+        }
+    },
 
-      // 2. Narasi Puitis
-      cultureNarrative: [
-        { id: 'p1', text: 'Di tepian Barito, waktu tak pernah benar-benar berlalu. Ia hanya bertukar rupa; dari gemericik arus yang mencium lunas jukung, hingga kilau intan yang lahir dari gelapnya bumi.' },
-        { id: 'p2', text: 'Lihatlah jemari yang merintang warna pada sehelai Sasirangan— di sana ada doa yang dipintal, ada rahasia alam yang dijaga.' },
-        { id: 'p3', text: 'Budaya kita bukan sekadar peninggalan, melainkan detak nadi yang terus beradu. Seperti simbal yang memecah hening, ia memanggil kita untuk pulang, merayakan kemilau yang takkan pernah padam di tanah Seribu Sungai.' }
-      ],
-
-      // 3. Modern City Stats
-      cityStats: [
-        { label: 'Penetrasi Digital', value: 85, color: 'bg-heritage-gold', max: 100 },
-        { label: 'Startup Lokal', value: 120, color: 'bg-heritage-brown', max: 200 },
-        { label: 'Smart City Index', value: 4.2, color: 'bg-heritage-gold', max: 5 },
-        { label: 'Konektivitas Publik', value: 92, color: 'bg-heritage-brown', max: 100 }
-      ],
-
-      // 4. Admin Command Actions
-      updatePlace: (id, updatedPlace) => set((state) => ({
-        places: state.places.map(p => p.id === id ? { ...p, ...updatedPlace } : p)
-      })),
-      
-      addPlace: (place) => set((state) => ({
-        places: [...state.places, { ...place, id: Date.now() }]
-      })),
-
-      deletePlace: (id) => set((state) => ({
-        places: state.places.filter(p => p.id !== id)
-      })),
-
-      updateNarrative: (id, text) => set((state) => ({
-        cultureNarrative: state.cultureNarrative.map(n => n.id === id ? { ...n, text } : n)
-      })),
-
-      updateStat: (label, value) => set((state) => ({
-        cityStats: state.cityStats.map(s => s.label === label ? { ...s, value } : s)
-      }))
-    }),
-    {
-      name: 'nadibarito-tourism-storage',
-    }
-  )
-);
+    // Methods
+    toggleFavorite: (id) => set((state) => ({ 
+        favorites: state.favorites.includes(id) 
+            ? state.favorites.filter(f => f !== id) 
+            : [...state.favorites, id] 
+    })),
+    addReview: (review) => set((state) => ({ 
+        reviews: [...state.reviews, review] 
+    })),
+    updateNarrative: (id, text) => set((state) => ({ 
+        cultureNarrative: state.cultureNarrative.map(n => n.id === id ? { ...n, text } : n) 
+    })),
+    updatePlace: (id, data) => set((state) => ({ 
+        places: state.places.map(p => p.id === id ? { ...p, ...data } : p) 
+    })),
+    addPlace: (place) => set((state) => ({ 
+        places: [...state.places, { ...place, id: String(Date.now()) }] 
+    })),
+    deletePlace: (id) => set((state) => ({ 
+        places: state.places.filter(p => p.id !== id) 
+    })),
+    updateCulinary: (id, data) => set((state) => ({ 
+        culinary: state.culinary.map(c => c.id === id ? { ...c, ...data } : c) 
+    })),
+    addCulinary: (item) => set((state) => ({ 
+        culinary: [...state.culinary, { ...item, id: 'c' + String(Date.now()) }] 
+    })),
+    deleteCulinary: (id) => set((state) => ({ 
+        culinary: state.culinary.filter(c => c.id !== id) 
+    })),
+    updateStat: (label, value) => set((state) => ({ 
+        cityStats: state.cityStats.map(s => s.label === label ? { ...s, value } : s) 
+    }))
+}));

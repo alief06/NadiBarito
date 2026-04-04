@@ -1,0 +1,80 @@
+export const destinationData = [
+    {
+        id: 'dest1',
+        name: 'Pasar Terapung Siring',
+        category: 'River Experience',
+        district: 'Banjarmasin Tengah',
+        description: 'Urat nadi perdagangan tradisional yang beradaptasi di tengah kota modern. Saksikan ibu-ibu tangguh merajut ekonomi di atas lanting dan jukung.',
+        image: 'https://images.unsplash.com/photo-1596402184320-417d717867cd?auto=format&fit=crop&w=800&q=80',
+        lat: -3.3186,
+        lng: 114.5947,
+        rating: 4.8,
+        tags: ['Popular', 'Cultural', 'Morning'],
+        transport: 'By Klotok'
+    },
+    {
+        id: 'dest2',
+        name: 'Masjid Sultan Suriansyah',
+        category: 'Religious Heritage',
+        district: 'Banjarmasin Utara',
+        description: 'Masjid megah tertua saksi bisu masuknya Islam di era Kesultanan Banjar (1526). Arsitektur atap tumpang mencerminkan asimilasi budaya bernilai tinggi.',
+        image: 'https://upload.wikimedia.org/wikipedia/commons/e/e0/Masjid_Sultan_Suriansyah_1.jpg',
+        lat: -3.2943,
+        lng: 114.5762,
+        rating: 4.9,
+        tags: ['Heritage', 'Religious', 'Architecture'],
+        transport: 'By Land'
+    },
+    {
+        id: 'dest3',
+        name: 'Kubah Basirih',
+        category: 'Religious Heritage',
+        district: 'Banjarmasin Barat',
+        description: 'Makam keramat Habib Basirih yang tak pernah sepi diziarahi. Terletak di tepi Sungai Barito, menjadi episentrum wisata religi Kalimantan Selatan.',
+        image: 'https://images.unsplash.com/photo-1519781542704-957ff19eff00?auto=format&fit=crop&w=800&q=80',
+        lat: -3.3325,
+        lng: 114.5739,
+        rating: 4.9,
+        tags: ['Spiritual', 'Historical'],
+        transport: 'By Klotok'
+    },
+    {
+        id: 'dest4',
+        name: 'Kampung Sasirangan',
+        category: 'Urban Landmark',
+        district: 'Banjarmasin Tengah',
+        description: 'Pusat kriya wastra agung Banjar. Berjalan menyusuri gang dengan kain warna warni yang sedang dijemur, merekam jejak peradaban sandang.',
+        image: 'https://images.unsplash.com/photo-1579601053077-3e1140024479?auto=format&fit=crop&w=800&q=80',
+        lat: -3.3211,
+        lng: 114.5944,
+        rating: 4.7,
+        tags: ['Creative', 'Shopping'],
+        transport: 'By Land'
+    },
+    {
+        id: 'dest5',
+        name: 'Menara Pandang',
+        category: 'Urban Landmark',
+        district: 'Banjarmasin Tengah',
+        description: 'Ikon modern untuk melihat lekuk kota dari ketinggian. Atap khas Bubungan Tinggi di puncaknya memadukan masa lalu lekat dengan beton masa kini.',
+        image: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=800&q=80',
+        lat: -3.3180,
+        lng: 114.5925,
+        rating: 4.6,
+        tags: ['Cityview', 'Modern'],
+        transport: 'By Land'
+    },
+    {
+        id: 'dest6',
+        name: 'Patung Bekantan',
+        category: 'Urban Landmark',
+        district: 'Banjarmasin Tengah',
+        description: 'Ikon primata khas Kalimantan dalam bentuk monumen megah. Gagah berdiri memancarkan semburan air ke sungai, menjadi penjaga setia muara kota.',
+        image: 'https://images.unsplash.com/photo-1590487930999-56d1c95bf2fb?auto=format&fit=crop&w=800&q=80',
+        lat: -3.3195,
+        lng: 114.5958,
+        rating: 4.8,
+        tags: ['Popular', 'Landmark', 'Photography'],
+        transport: 'By Land'
+    }
+];

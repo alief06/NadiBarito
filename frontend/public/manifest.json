@@ -1,0 +1,29 @@
+{
+  "name": "NADIBARITO | The Digital Pulse of Thousand Rivers",
+  "short_name": "NadiBarito",
+  "name_localized": "Nadi Barito: Budaya Kota Seribu Sungai",
+  "start_url": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#050505",
+  "theme_color": "#f97316",
+  "description": "Jelajahi keajaiban budaya, alam, dan modernitas Kalimantan Selatan dalam satu platform interaktif yang imersif.",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "categories": ["travel", "culture", "education"]
+}

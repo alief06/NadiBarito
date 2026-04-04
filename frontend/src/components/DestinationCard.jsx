@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Star, Heart } from 'lucide-react';
+import { MapPin, Star, Heart, Sparkles } from 'lucide-react';
 import Tilt from 'react-parallax-tilt';
 
-export const DestinationCard = ({ id, image, title, category, location, rating, delay = 0, onClick, isLiked, onLike }) => {
+export const DestinationCard = ({ id, image, title, category, location, district, rating, isLegendary, delay = 0, onClick, isLiked, onLike }) => {
     return (
         <motion.div
             layout // Enable smooth layout transitions
@@ -18,20 +18,32 @@ export const DestinationCard = ({ id, image, title, category, location, rating, 
                 tiltMaxAngleY={8} 
                 scale={1.02} 
                 transitionSpeed={2500} 
-                className="group relative bg-white dark:bg-heritage-dark-surface rounded-3xl overflow-hidden cursor-pointer premium-card h-full flex flex-col shadow-xl"
+                className="group relative bg-[#0a0a0a] rounded-[2.5rem] overflow-hidden cursor-pointer premium-card h-full flex flex-col shadow-2xl border border-white/5"
             >
                 {/* Image Container with Hover Effect */}
-                <div className="relative aspect-[4/5] overflow-hidden rounded-t-3xl h-full flex-grow">
-                    <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors duration-500 z-10" onClick={onClick} />
+                <div className="relative aspect-[4/5] overflow-hidden rounded-t-[2.5rem] h-full flex-grow">
+                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors duration-700 z-10" onClick={onClick} />
                     <motion.img
                         src={image}
                         alt={title}
-                        className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-[1.15]"
+                        className="w-full h-full object-cover transition-transform duration-[2s] ease-out group-hover:scale-[1.15] grayscale group-hover:grayscale-0"
                     />
                     
+                    {/* Legendary Glow Overlay */}
+                    {isLegendary && (
+                        <div className="absolute inset-0 z-15 border-2 border-yellow-500/20 group-hover:border-yellow-500/40 transition-all pointer-events-none rounded-t-[2.5rem]">
+                            <div className="absolute top-10 left-10 z-20">
+                                <div className="flex items-center gap-2 px-4 py-2 bg-yellow-500/10 backdrop-blur-3xl border border-yellow-500/50 rounded-full shadow-[0_0_20px_rgba(234,179,8,0.3)]">
+                                    <Sparkles size={12} className="text-yellow-400 animate-pulse" />
+                                    <span className="text-[8px] font-bold text-yellow-400 uppercase tracking-widest italic font-serif">Legend</span>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                     {/* Category Badge */}
-                    <div className="absolute top-16 left-16 z-20 pointer-events-none">
-                        <span className="px-12 py-6 bg-white/20 backdrop-blur-md border border-white/30 text-white rounded-full text-[10px] font-bold uppercase tracking-widest shadow-lg">
+                    <div className="absolute top-10 right-10 z-20 pointer-events-none">
+                        <span className="px-10 py-5 bg-white/5 backdrop-blur-3xl border border-white/10 text-white rounded-full text-[9px] font-bold uppercase tracking-[0.2em] shadow-2xl">
                             {category}
                         </span>
                     </div>
@@ -40,15 +52,15 @@ export const DestinationCard = ({ id, image, title, category, location, rating, 
                     <motion.button
                         whileTap={{ scale: 0.8 }}
                         onClick={(e) => { e.stopPropagation(); onLike && onLike(id); }}
-                        className="absolute top-16 right-16 z-30 p-10 rounded-full bg-black/30 hover:bg-black/50 backdrop-blur-md border border-white/20 transition-all shadow-lg"
+                        className="absolute bottom-10 right-10 z-30 p-10 rounded-full bg-black/50 hover:bg-[#f97316] backdrop-blur-md border border-white/10 transition-all shadow-2xl group/like"
                     >
                         <motion.div
                             animate={isLiked ? { scale: [1, 1.5, 1] } : { scale: 1 }}
                             transition={{ duration: 0.3 }}
                         >
                             <Heart 
-                                size={18} 
-                                className={`transition-colors duration-300 ${isLiked ? 'text-red-500 fill-red-500' : 'text-white'}`} 
+                                size={20} 
+                                className={`transition-colors duration-300 ${isLiked ? 'text-white fill-white' : 'text-white/40 group-hover/like:text-white'}`} 
                             />
                         </motion.div>
                     </motion.button>
@@ -56,24 +68,26 @@ export const DestinationCard = ({ id, image, title, category, location, rating, 
 
                 {/* Content Area */}
                 <div 
-                    className="absolute bottom-0 left-0 right-0 p-24 bg-gradient-to-t from-black/95 via-black/70 to-transparent z-20 translate-y-8 group-hover:translate-y-0 transition-transform duration-500"
+                    className="p-10 bg-gradient-to-t from-[#0a0a0a] to-[#0a0a0a]/90 z-20"
                     onClick={onClick}
                 >
-                    <div className="flex justify-between items-end mb-8 relative">
-                        <h3 className="text-h3 font-heritage font-bold text-white pr-12 line-clamp-1 group-hover:text-heritage-gold transition-colors duration-300">{title}</h3>
-                        <div className="flex items-center gap-4 px-8 py-4 bg-heritage-gold/20 backdrop-blur-md border border-heritage-gold/30 rounded-lg text-white text-xs font-semibold shadow-inner shrink-0 mb-4">
-                            <Star size={12} className="text-heritage-gold fill-heritage-gold" />
-                            <span>{rating}</span>
+                    <div className="flex justify-between items-start mb-6">
+                        <div className="flex-1 pr-6">
+                            <h3 className="text-xl md:text-2xl font-serif font-black text-white group-hover:text-[#f97316] transition-colors duration-500 line-clamp-1 italic tracking-tighter">{title}</h3>
+                            <div className="flex items-center gap-3 text-white/30 text-[9px] font-bold uppercase tracking-[0.3em] mt-2 group-hover:text-[#f97316]/50 transition-colors">
+                                <MapPin size={12} className="text-[#f97316] min-w-[12px]" />
+                                <span className="truncate">{district || location || 'Banjarmasin Tengah'}</span>
+                            </div>
                         </div>
-                    </div>
-                    <div className="flex items-center gap-6 text-white/80 text-small opacity-70 group-hover:opacity-100 transition-opacity duration-500">
-                        <MapPin size={14} className="text-heritage-gold min-w-[14px]" />
-                        <span className="truncate">{location}</span>
+                        <div className="flex items-center gap-3 px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl text-white text-[12px] font-serif shadow-inner shrink-0 italic">
+                            <Star size={14} className="text-[#f97316] fill-[#f97316]" />
+                            <span className="font-bold">{rating || '4.9'}</span>
+                        </div>
                     </div>
                 </div>
                 
                 {/* Glow border on hover */}
-                <div className="absolute inset-0 border-2 border-transparent group-hover:border-heritage-gold/40 rounded-3xl transition-colors duration-500 z-30 pointer-events-none" />
+                <div className="absolute inset-0 border-2 border-transparent group-hover:border-[#f97316]/20 rounded-[2.5rem] transition-colors duration-700 z-30 pointer-events-none" />
             </Tilt>
         </motion.div>
     );
@@ -81,14 +95,14 @@ export const DestinationCard = ({ id, image, title, category, location, rating, 
 
 export const SkeletonDestinationCard = () => {
     return (
-        <div className="relative bg-black/5 dark:bg-white/5 rounded-3xl overflow-hidden animate-pulse shadow-md h-full min-h-[400px]">
-            <div className="absolute inset-0 bg-gradient-to-tr from-black/10 via-transparent to-black/5 dark:from-white/10 dark:to-white/5" />
-            <div className="absolute top-16 left-16 w-24 h-8 bg-black/10 dark:bg-white/10 rounded-full" />
-            <div className="absolute top-16 right-16 w-12 h-12 bg-black/10 dark:bg-white/10 rounded-full" />
+        <div className="relative bg-black/40 rounded-[2.5rem] overflow-hidden animate-pulse shadow-md h-full min-h-[400px] border border-white/5">
+            <div className="absolute inset-0 bg-gradient-to-tr from-white/2 via-transparent to-white/5" />
+            <div className="absolute top-10 left-10 w-24 h-8 bg-white/5 rounded-full" />
+            <div className="absolute top-10 right-10 w-12 h-12 bg-white/5 rounded-full" />
             
-            <div className="absolute bottom-0 left-0 right-0 p-24 bg-gradient-to-t from-black/20 to-transparent">
-                <div className="h-28 bg-black/20 dark:bg-white/20 rounded-lg w-3/4 mb-16" />
-                <div className="h-16 bg-black/15 dark:bg-white/15 rounded-md w-1/2" />
+            <div className="absolute bottom-0 left-0 right-0 p-10 bg-gradient-to-t from-black/80 to-transparent">
+                <div className="h-10 bg-white/10 rounded-lg w-3/4 mb-10" />
+                <div className="h-6 bg-white/5 rounded-md w-1/2" />
             </div>
         </div>
     );

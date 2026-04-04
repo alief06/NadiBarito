@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /nadibarito-command-v1-9922
+
+Sitemap: https://nadibarito.com/sitemap.xml

@@ -1,179 +1,175 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { Clock, MapPin, Navigation } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Clock, MapPin, Navigation, Sparkles, ArrowRight, Zap, Loader2, Compass } from 'lucide-react';
 import PageTransition from '../components/PageTransition';
-import Button from '../components/Button';
 import Hero from '../components/Hero';
-import { destinations } from '../data'; // File mockup database
+import { useTourismStore } from '../store/useTourismStore';
+import SEO from '../components/SEO';
 
 const Home = () => {
-    const { t } = useTranslation();
     const navigate = useNavigate();
+    const { places, cityStats } = useTourismStore();
     
     // Automated Planner Logic State
     const [itinerary, setItinerary] = useState([]);
     const [isPlannerLoading, setIsPlannerLoading] = useState(false);
 
-    // Fungsi Automated Planner (Sistem Penjadwalan Sederhana)
     const generateBanjarmasinItinerary = () => {
         setIsPlannerLoading(true);
-        // Simulasi fetching/processing database
         setTimeout(() => {
-            // Sort database berdasarkan priority waktu (1: Subuh, 2: Pagi, 3: Siang, dsb)
-            const sortedDestinations = [...destinations].sort((a, b) => a.priority - b.priority);
-            
-            // Ambil 4 destinasi teratas untuk Itinerary 1 Hari yang padat & masuk akal
-            setItinerary(sortedDestinations.slice(0, 4));
+            const shuffled = [...places].sort(() => 0.5 - Math.random());
+            setItinerary(shuffled.slice(0, 4));
             setIsPlannerLoading(false);
-        }, 1200);
+        }, 1500);
     };
 
     return (
         <PageTransition>
-            {/* Super Dark Base Background agar menyatu dengan Spline 3D di Hero */}
-            <div className="min-h-screen bg-[#0a0a0a] text-[#EAF4F4] overflow-x-hidden transition-colors duration-[1.5s]">
+            <SEO 
+                title="Beranda" 
+                description="Selamat datang di NADIBARITO. Jelajahi Denyut Nadi Seribu Sungai melalui platform pariwisata masa depan Kalimantan Selatan." 
+            />
+            <div className="min-h-screen bg-[#050505] text-white overflow-x-hidden selection:bg-[#f97316]/30">
                 
-                {/* 1. Hero Spline 3D Background & Search Bar Container */}
+                {/* 1. Hero Spline 3D Background */}
                 <Hero />
 
-                {/* 2. Jejak Kesultanan (History Section) */}
-                <section className="py-24 md:py-32 px-8 md:px-16 lg:px-32 max-w-7xl mx-auto">
+                {/* 2. Decentralized Stats Node */}
+                <section className="py-20 px-6 max-w-7xl mx-auto -mt-32 relative z-20">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                        {cityStats.map((stat, idx) => (
+                            <motion.div 
+                                key={stat.label}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: idx * 0.1 }}
+                                className="bg-white/5 backdrop-blur-3xl border border-white/10 p-8 rounded-[3rem] group hover:border-[#f97316]/40 transition-all shadow-2xl"
+                            >
+                                <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 mb-6 group-hover:text-[#f97316] transition-colors">{stat.label}</div>
+                                <div className="text-5xl font-serif font-bold mb-6 tracking-tighter">{stat.value}{stat.max === 100 ? '%' : ''}</div>
+                                <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                                    <motion.div 
+                                        initial={{ width: 0 }}
+                                        whileInView={{ width: `${(stat.value / stat.max) * 100}%` }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
+                                        className={`h-full bg-[#f97316] shadow-[0_0_15px_rgba(249,115,22,0.4)]`}
+                                    />
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </section>
+
+                {/* 3. Jejak Kesultanan (History Section) */}
+                <section className="py-24 md:py-48 px-6 max-w-7xl mx-auto border-b border-white/5">
                     <motion.div 
                         initial={{ opacity: 0, y: 50 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 1, ease: 'easeOut' }}
-                        className="flex flex-col md:flex-row gap-16 items-center"
+                        viewport={{ once: true }}
+                        className="flex flex-col lg:flex-row gap-24 items-center"
                     >
-                        <div className="w-full md:w-1/2">
-                            <h2 className="text-4xl md:text-5xl font-serif font-bold text-[#f59e0b] mb-4 drop-shadow-lg">Jejak Kesultanan</h2>
-                            <h3 className="text-2xl font-sans font-bold mb-6 text-white/90">Berdirinya Banjarmasin (1526)</h3>
-                            <p className="text-lg leading-relaxed text-white/70 mb-8 font-light">
-                                Perang takhta membawa Pangeran Samudera meminta bantuan ke Demak. Kemenangan bersejarah itu tidak hanya mengukuhkan kekuasaannya, namun juga menjadi titik awal masuknya Islam di Banjarmasin. Bergelar <strong>Sultan Suriansyah</strong>, beliau mendirikan fondasi pemerintahan di Kuin, menciptakan peradaban tangguh di tepian sungai.
+                        <div className="w-full lg:w-1/2 space-y-12">
+                            <div className="flex items-center gap-6">
+                                <div className="w-16 h-px bg-[#f97316]" />
+                                <span className="text-[#f97316] text-[10px] font-bold uppercase tracking-[0.5em]">Anno 1526</span>
+                            </div>
+                            <h2 className="text-6xl md:text-8xl font-serif font-bold leading-none tracking-tighter">Jejak <br/><span className="text-[#f97316]">Kesultanan</span></h2>
+                            <p className="text-xl leading-relaxed text-white/40 font-serif italic border-l-2 border-[#f97316]/30 pl-10 max-w-lg">
+                                "Perang takhta membawa Pangeran Samudera meminta bantuan ke Demak. Kemenangan bersejarah itu tidak hanya mengukuhkan kekuasaannya, namun juga menjadi titik awal peradaban baru."
                             </p>
-                            <Button variant="outline" onClick={() => navigate('/history')} className="border-[#f59e0b] text-[#f59e0b] hover:bg-[#f59e0b] hover:text-black transition-all">
-                                Telusuri Sejarah
-                            </Button>
+                            <button 
+                                onClick={() => navigate('/history')} 
+                                className="group flex items-center gap-6 text-[10px] font-bold uppercase tracking-[0.3em] hover:text-[#f97316] transition-all border border-white/5 bg-white/5 px-8 py-4 rounded-full w-fit shadow-xl"
+                            >
+                                Telusuri Garis Waktu <ArrowRight size={18} className="group-hover:translate-x-3 transition-transform duration-500" />
+                            </button>
                         </div>
-                        {/* Image Layout */}
-                        <div className="w-full md:w-1/2 relative h-[400px] rounded-[2rem] overflow-hidden shadow-[0_0_30px_rgba(245,158,11,0.15)] group">
-                             <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Masjid_Sultan_Suriansyah_1.jpg" alt="Masjid Sultan Suriansyah" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                             <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent"></div>
-                             <div className="absolute bottom-8 left-8 text-white">
-                                <span className="text-xs tracking-widest uppercase text-[#f59e0b] font-bold">Landmark</span>
-                                <h4 className="text-xl font-bold">Masjid Sultan Suriansyah</h4>
+                        <div className="w-full lg:w-1/2 relative group">
+                             <div className="relative h-[700px] rounded-[4rem] overflow-hidden border border-white/10 shadow-3xl">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Masjid_Sultan_Suriansyah_1.jpg" alt="Masjid Sultan Suriansyah" className="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-[2s]" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
+                                <div className="absolute bottom-16 left-16">
+                                    <div className="bg-white/5 backdrop-blur-3xl border border-white/10 px-8 py-6 rounded-[2.5rem]">
+                                        <span className="text-[10px] font-bold text-[#f97316] uppercase tracking-[0.4em] mb-2 block">Pusaka Kuno</span>
+                                        <h4 className="text-4xl font-serif font-bold italic tracking-tight">Masjid Sultan Suriansyah</h4>
+                                    </div>
+                                </div>
                              </div>
                         </div>
                     </motion.div>
                 </section>
 
-                {/* 3. Nadi Barito (Culture Section) */}
-                <section className="py-24 md:py-32 px-8 md:px-16 lg:px-32 max-w-7xl mx-auto relative">
-                    <div className="absolute inset-0 bg-white/5 rounded-[4rem] -z-10 blur-3xl"></div>
-                    <motion.div 
-                        initial={{ opacity: 0, y: 50 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 1, ease: 'easeOut' }}
-                        className="flex flex-col md:flex-row-reverse gap-16 items-center"
-                    >
-                        <div className="w-full md:w-1/2">
-                            <h2 className="text-4xl md:text-5xl font-serif font-bold text-[#f59e0b] mb-4 drop-shadow-lg uppercase tracking-tight">NADIBARITO</h2>
-                            <h3 className="text-2xl font-sans font-bold mb-6 text-white/90">Budaya Jukung & Kerajinan Sasirangan</h3>
-                            <p className="text-lg leading-relaxed text-white/70 mb-8 font-light">
-                                Mengarungi kehidupan di atas <strong>Jukung</strong>, bersapa di Pasar Terapung sejak waktu Subuh yang magis. Budaya warga yang tak bisa dilepaskan dari air, diabadikan sempurna di lekuk motif kain <strong>Sasirangan</strong> yang dijahit tangan dengan teliti dan penuh kebanggaan.
-                            </p>
-                            <Button onClick={() => navigate('/culture')} className="bg-[#f59e0b] text-black font-bold uppercase tracking-wider hover:bg-yellow-500 shadow-[0_0_20px_rgba(245,158,11,0.3)]">
-                                Menyelami Budaya
-                            </Button>
+                {/* 4. Automated Planner Section (AI Itinerary Reconstruction) */}
+                <section className="py-48 px-6 max-w-7xl mx-auto">
+                    <div className="text-center mb-24 space-y-8">
+                        <div className="inline-flex items-center gap-3 bg-[#f97316]/10 px-8 py-3 rounded-full border border-[#f97316]/20">
+                            <Zap size={16} className="text-[#f97316] animate-pulse" />
+                            <span className="text-[#f97316] text-[10px] font-bold uppercase tracking-[0.5em]">Karsa Digital Intelligence</span>
                         </div>
-                        {/* Two Image Staggered Grid */}
-                        <div className="w-full md:w-1/2 flex gap-4 h-[450px]">
-                            <div className="w-1/2 h-full pb-12">
-                                <img src="https://images.unsplash.com/photo-1549449852-59530bedc78b?auto=format&fit=crop&w=400&q=80" alt="Pasar Terapung" className="w-full h-full object-cover rounded-[2rem] shadow-lg" />
-                            </div>
-                            <div className="w-1/2 h-full pt-12">
-                                <img src="https://upload.wikimedia.org/wikipedia/id/3/3d/Kain_Sasirangan.jpg" alt="Sasirangan" className="w-full h-full object-cover rounded-[2rem] shadow-lg" />
-                            </div>
-                        </div>
-                    </motion.div>
-                </section>
-
-                {/* 4. Automated Planner Feature */}
-                <section className="py-24 md:py-32 px-8 md:px-16 lg:px-32 max-w-7xl mx-auto text-center border-t border-white/10 mt-16">
-                    <motion.div 
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                    >
-                        <h2 className="text-4xl md:text-5xl font-serif font-bold text-[#f59e0b] mb-6 drop-shadow-md">Automated Planner</h2>
-                        <p className="max-w-xl mx-auto mb-12 text-lg text-white/60 font-light">
-                            Tidak perlu pusing mengatur jadwal liburan singkat Anda. Biarkan algoritma kami merekonstruksi alur perjalanan 1 hari terbaik secara runut.
+                        <h2 className="text-6xl md:text-9xl font-serif font-bold italic tracking-tighter leading-none">Automated <span className="text-[#f97316]">Planner</span></h2>
+                        <p className="max-w-xl mx-auto text-white/40 text-lg leading-relaxed font-serif italic border-l-2 border-white/5 pl-8">
+                            Biarkan algoritma cerdas Nadi Barito merajut untaian narasi perjalanan Anda di kota Seribu Sungai.
                         </p>
-                        
+                    </div>
+
+                    <div className="flex flex-col items-center gap-16">
                         <button 
                             onClick={generateBanjarmasinItinerary} 
                             disabled={isPlannerLoading}
-                            className={`flex items-center gap-4 mx-auto px-10 py-5 rounded-full font-bold uppercase tracking-widest transition-all duration-300 ${isPlannerLoading ? 'bg-white/10 text-white/50 cursor-not-allowed' : 'bg-[#112F36] text-[#f59e0b] hover:bg-[#1a444e] border border-[#f59e0b]/50 shadow-[0_0_20px_rgba(245,158,11,0.2)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)]'}`}
+                            className="relative group overflow-hidden px-20 py-8 rounded-[2.5rem] bg-white text-black font-extrabold uppercase tracking-[0.4em] text-[12px] hover:bg-[#f97316] hover:text-white transition-all duration-700 disabled:opacity-50 shadow-3xl active:scale-95"
                         >
-                            <Navigation size={18} />
-                            {isPlannerLoading ? 'Menghitung Jarak & Waktu...' : 'Generate Itinerary'}
+                            <span className="relative z-10 flex items-center gap-4">
+                                {isPlannerLoading ? <Loader2 className="animate-spin" size={20} /> : <Compass size={20} />}
+                                {isPlannerLoading ? 'Menyusun Dimensi...' : 'Konstruksi Perjalanan'}
+                            </span>
                         </button>
 
-                        {/* Itinerary Result Display */}
-                        <div className="mt-16 text-left relative">
-                            {/* Vertical Line for Timeline */}
-                            {itinerary.length > 0 && <div className="absolute left-1/2 top-4 bottom-0 w-px bg-white/10 hidden lg:block"></div>}
-                            
-                            <AnimatePresence>
-                                {itinerary.map((item, index) => (
-                                    <motion.div 
-                                        key={item.id}
-                                        initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                                        transition={{ delay: index * 0.2 }}
-                                        className={`flex flex-col lg:flex-row gap-8 lg:gap-16 items-center mb-16 ${index % 2 === 0 ? '' : 'lg:flex-row-reverse'}`}
-                                    >
-                                        <div className="w-full lg:w-1/2 relative">
-                                            <div className="w-full h-64 rounded-3xl overflow-hidden shadow-xl border border-white/5">
-                                                <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                        <div className="w-full relative py-20">
+                            <div className="space-y-40">
+                                <AnimatePresence mode="popLayout">
+                                    {itinerary.map((item, index) => (
+                                        <motion.div 
+                                            key={item.id}
+                                            initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, scale: 0.9 }}
+                                            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 }}
+                                            className={`flex flex-col lg:flex-row items-center gap-16 lg:gap-32 ${index % 2 === 0 ? '' : 'lg:flex-row-reverse'}`}
+                                        >
+                                            <div className="w-full lg:w-1/2 relative group">
+                                                <div className="h-[500px] rounded-[4rem] overflow-hidden border border-white/5 shadow-3xl transition-all group-hover:border-[#f97316]/50">
+                                                    <img src={item.image} alt={item.name} className="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-[2s]" />
+                                                </div>
+                                                <div className={`absolute top-1/2 -mt-6 w-12 h-12 rounded-full border-8 border-[#050505] bg-white shadow-[0_0_40px_rgba(255,255,255,0.3)] group-hover:bg-[#f97316] group-hover:shadow-[0_0_40px_rgba(249,115,22,0.8)] transition-all z-20 hidden lg:block ${index % 2 === 0 ? '-right-6' : '-left-6'}`} />
                                             </div>
-                                            {/* Timeline Node Dot */}
-                                            <div className={`hidden lg:block absolute top-1/2 -mt-2 w-4 h-4 rounded-full bg-[#f59e0b] shadow-[0_0_15px_#f59e0b] ${index % 2 === 0 ? '-right-[2.5rem]' : '-left-[2.5rem]'}`}></div>
-                                        </div>
-                                        
-                                        <div className="w-full lg:w-1/2 bg-white/5 backdrop-blur-md p-8 rounded-3xl border border-white/10">
-                                            <div className="flex items-center gap-2 text-[#f59e0b] font-bold text-sm uppercase tracking-widest mb-4">
-                                                <Clock size={16} /> Waktu Ideal: {item.bestTime}
+                                            
+                                            <div className="w-full lg:w-1/2 space-y-10 text-left">
+                                                <div className="flex items-center gap-4 text-[#f97316] font-bold text-[10px] uppercase tracking-[0.5em] italic">
+                                                    <Clock size={16} /> Relevansi: {item.bestTime}
+                                                </div>
+                                                <h4 className="font-serif text-5xl md:text-6xl font-bold tracking-tight italic text-white group-hover:text-[#f97316] transition-colors">{item.name}</h4>
+                                                <p className="text-white/40 leading-relaxed text-xl font-serif italic border-l-2 border-white/5 pl-10 max-w-lg">
+                                                    {item.description}
+                                                </p>
+                                                <Link to={`/place/${item.id}`} className="group/link inline-flex items-center gap-4 text-[#f97316] text-[11px] font-bold uppercase tracking-[0.3em] pb-2 border-b border-[#f97316]/20 hover:border-[#f97316] transition-all">
+                                                    Detail Koordinat <ArrowRight size={16} className="group-hover/link:translate-x-3 transition-transform duration-500" />
+                                                </Link>
                                             </div>
-                                            <h4 className="font-serif text-3xl font-bold mb-4">{item.name}</h4>
-                                            <div className="inline-block px-4 py-2 rounded-full bg-white/10 text-xs font-semibold mb-4 text-white/80">{item.category}</div>
-                                            <p className="text-white/70 leading-relaxed text-base">{item.description}</p>
-                                        </div>
-                                    </motion.div>
-                                ))}
-                            </AnimatePresence>
+                                        </motion.div>
+                                    ))}
+                                </AnimatePresence>
+                            </div>
                         </div>
-                    </motion.div>
+                    </div>
                 </section>
 
-                {/* 5. Google Maps Coordinates Lock */}
-                <section className="py-24 px-8 md:px-16 lg:px-32 max-w-7xl mx-auto mb-32">
-                    <div className="bg-[#112F36] p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden border border-white/10">
-                        {/* Decorative background glow */}
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-[#f59e0b]/10 blur-[100px] rounded-full pointer-events-none"></div>
-                        
-                        <div className="mb-10 text-center relative z-10">
-                            <MapPin size={32} className="mx-auto text-[#f59e0b] mb-4" />
-                            <h2 className="text-3xl font-serif font-bold text-white tracking-widest">Titik Koordinat: <span className="text-[#f59e0b]">Siring Barito</span></h2>
-                            <p className="text-white/60 mt-2 font-mono text-sm">-3.316694, 114.590111</p>
-                        </div>
-                        
-                        {/* Map iframe wrapped for responsiveness */}
-                        <div className="w-full h-[500px] rounded-[2rem] overflow-hidden border border-white/20 shadow-inner relative z-10">
+                {/* 5. G-Maps Visual Anchor (Pusat Karsa) */}
+                <section className="py-48 px-6 max-w-7xl mx-auto border-t border-white/5">
+                    <div className="relative rounded-[5rem] overflow-hidden border border-white/10 shadow-3xl bg-white/2 p-6">
+                        <div className="aspect-video w-full rounded-[4rem] overflow-hidden">
                             <iframe 
                                 src="https://maps.google.com/maps?q=-3.316694,114.590111&t=&z=15&ie=UTF8&iwloc=&output=embed"
                                 width="100%" 
@@ -181,13 +177,33 @@ const Home = () => {
                                 style={{ border: 0 }} 
                                 allowFullScreen="" 
                                 loading="lazy" 
-                                referrerPolicy="no-referrer-when-downgrade"
                                 title="Banjarmasin Siring Map"
-                                className="grayscale contrast-125 opacity-90 transition-all hover:grayscale-0 hover:opacity-100 duration-500"
+                                className="grayscale contrast-125 brightness-50 opacity-100 hover:grayscale-0 hover:brightness-100 transition-all duration-[1.5s] scale-110 group-hover:scale-100"
                             ></iframe>
+                        </div>
+                        <div className="absolute bottom-16 right-16 text-right hidden lg:block">
+                            <div className="bg-[#050505]/60 backdrop-blur-3xl border border-white/10 p-12 rounded-[4rem] shadow-3xl text-left max-w-md">
+                                <div className="p-5 bg-[#f97316]/10 rounded-[2.5rem] w-fit mb-8 text-[#f97316] border border-[#f97316]/20">
+                                    <Navigation size={32} />
+                                </div>
+                                <h2 className="text-5xl font-serif font-bold text-white mb-3 italic tracking-tight">Pusat Karsa</h2>
+                                <p className="text-[#f97316] font-mono text-[11px] font-bold tracking-[0.2em] uppercase mb-8">Siring Barito • -3.3166, 114.5901</p>
+                                <button 
+                                    onClick={() => navigate('/map')}
+                                    className="w-full bg-white text-black font-bold py-6 rounded-[2rem] flex items-center justify-center gap-4 uppercase text-[10px] tracking-widest hover:bg-[#f97316] hover:text-white transition-all shadow-2xl active:scale-95"
+                                >
+                                    Eksplorasi Peta Digital
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </section>
+
+                <div className="py-20 text-center opacity-10">
+                    <div className="text-[10px] font-bold uppercase tracking-[1em]">
+                        Nadi Barito v2.1.0-RC
+                    </div>
+                </div>
 
             </div>
         </PageTransition>

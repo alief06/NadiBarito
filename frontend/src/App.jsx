@@ -3,7 +3,11 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import { Toaster } from 'sonner';
+import { HelmetProvider } from 'react-helmet-async';
 import SplashScreen from './components/SplashScreen';
+import SmoothScroll from './components/SmoothScroll';
+import CustomCursor from './components/CustomCursor';
+import ErrorBoundary from './components/ErrorBoundary';
 
 // Lazy loading components
 const Home = lazy(() => import('./pages/Home'));
@@ -17,7 +21,7 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 
 const History = lazy(() => import('./pages/History'));
 const Culture = lazy(() => import('./pages/Culture'));
-const ModernKalsel = lazy(() => import('./pages/ModernKalsel'));
+const Modern = lazy(() => import('./pages/Modern'));
 const AdminCommandCenter = lazy(() => import('./pages/AdminCommandCenter'));
 
 const MainLayout = lazy(() => import('./components/MainLayout'));
@@ -50,37 +54,44 @@ function App() {
         }}
       />
       
-      <AnimatePresence mode="wait">
-        {showSplash && (
-          <SplashScreen key="splash" finishLoading={() => setShowSplash(false)} />
-        )}
-      </AnimatePresence>
+      <HelmetProvider>
+        <AnimatePresence mode="wait">
+          {showSplash && (
+            <SplashScreen key="splash" finishLoading={() => setShowSplash(false)} />
+          )}
+        </AnimatePresence>
 
-      <Suspense fallback={<LoadingFallback />}>
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          {/* Main Application with Navbar and Footer */}
-          <Route path="/" element={<MainLayout />}>
-            <Route index element={<Home />} />
-            <Route path="explore" element={<Explore />} />
-            <Route path="history" element={<History />} />
-            <Route path="culture" element={<Culture />} />
-            <Route path="modern" element={<ModernKalsel />} />
-            <Route path="place/:id" element={<PlaceDetail />} />
-            <Route path="culinary" element={<Culinary />} />
-            <Route path="culinary/:id" element={<CulinaryDetail />} />
-            <Route path="map" element={<InteractiveMap />} />
-            <Route path="planner" element={<SmartPlanner />} />
-          </Route>
+        <SmoothScroll>
+          <CustomCursor />
+          <ErrorBoundary>
+            <Suspense fallback={<LoadingFallback />}>
+              <AnimatePresence mode="wait">
+                <Routes location={location} key={location.pathname}>
+                  {/* Main Application with Navbar and Footer */}
+                  <Route path="/" element={<MainLayout />}>
+                    <Route index element={<Home />} />
+                    <Route path="explore" element={<Explore />} />
+                    <Route path="history" element={<History />} />
+                    <Route path="culture" element={<Culture />} />
+                    <Route path="modern" element={<Modern />} />
+                    <Route path="place/:id" element={<PlaceDetail />} />
+                    <Route path="culinary" element={<Culinary />} />
+                    <Route path="culinary/:id" element={<CulinaryDetail />} />
+                    <Route path="map" element={<InteractiveMap />} />
+                    <Route path="planner" element={<SmartPlanner />} />
+                  </Route>
 
-          {/* Hidden Admin Command Center - No Layout, Direct Secret Route */}
-          <Route path="/nadibarito-command-v1-9922" element={<AdminCommandCenter />} />
+                  {/* Hidden Admin Command Center - No Layout, Direct Secret Route */}
+                  <Route path="/super-secret-admin-nadibarito" element={<AdminCommandCenter />} />
 
-          {/* Standalone Pages (No Navbar/Footer) */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </AnimatePresence>
-      </Suspense>
+                  {/* Standalone Pages (No Navbar/Footer) */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </AnimatePresence>
+            </Suspense>
+          </ErrorBoundary>
+        </SmoothScroll>
+      </HelmetProvider>
     </>
   );
 }

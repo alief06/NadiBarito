@@ -1,0 +1,142 @@
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/App.jsx
+  1:43  error  'useEffect' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/components/Button.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/components/Card.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/components/CulinaryCard.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/components/CultureNarrative.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/components/CustomCursor.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/components/DestinationCard.jsx
+  2:10   error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+  6:104  error  'delay' is assigned a value but never used                                     no-unused-vars
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/components/ErrorBoundary.jsx
+  10:37  error  'error' is defined but never used  no-unused-vars
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/components/Hero.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/components/MainLayout.jsx
+  5:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/components/MapSection.jsx
+  4:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/components/Navbar.jsx
+  3:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/components/PageTransition.jsx
+  1:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/components/PlaceCard.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/components/SplashScreen.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/context/DestinationContext.jsx
+  6:14  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/pages/AdminCommandCenter.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/pages/Culinary.jsx
+  4:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/pages/CulinaryDetail.jsx
+   5:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           no-unused-vars
+  22:9   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  20 |     useEffect(() => {
+  21 |         const foundItem = culinary.find(c => String(c.id) === String(id));
+> 22 |         setItem(foundItem);
+     |         ^^^^^^^ Avoid calling setState() directly within an effect
+  23 |         setLoading(false);
+  24 |     }, [id, culinary]);
+  25 |  react-hooks/set-state-in-effect
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/pages/Culture.jsx
+   4:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+  33:37  error  'Icon' is defined but never used                                               no-unused-vars
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/pages/Explore.jsx
+   4:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                   no-unused-vars
+  18:12  error  'showFilters' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u     no-unused-vars
+  18:25  error  'setShowFilters' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/pages/History.jsx
+  1:25  error  'useState' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+  3:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u    no-unused-vars
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/pages/Home.jsx
+  1:27  error  'useMemo' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u   no-unused-vars
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/pages/InteractiveMap.jsx
+    7:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    no-unused-vars
+  119:13  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  117 |             const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  118 |             const d = R * c;
+> 119 |             setDistanceMsg(`Berjarak ${d.toFixed(1)} km dari titik Anda`);
+      |             ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  120 |         } else {
+  121 |             setDistanceMsg('');
+  122 |         }  react-hooks/set-state-in-effect
+  129:18  error  'err' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  no-unused-vars
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/pages/Modern.jsx
+  3:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/pages/NotFound.jsx
+  3:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/pages/PlaceDetail.jsx
+   5:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           no-unused-vars
+  22:9   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  20 |     useEffect(() => {
+  21 |         const foundPlace = places.find(p => String(p.id) === String(id));
+> 22 |         setPlace(foundPlace);
+     |         ^^^^^^^^ Avoid calling setState() directly within an effect
+  23 |         setLoading(false);
+  24 |     }, [id, places]);
+  25 |  react-hooks/set-state-in-effect
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/pages/SmartPlanner.jsx
+  2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/aliefalikhsan/PunyaAlief/Lomba/NadiBarito/frontend/src/store/useTourismStore.js
+  3:40  error  'set' is defined but never used  no-unused-vars
+
+✖ 39 problems (39 errors, 0 warnings)
+

@@ -19,6 +19,7 @@ import {
 const AdminCommandCenter = () => {
     const { 
         places, updatePlace, addPlace, deletePlace, 
+        culinary, updateCulinary, addCulinary, deleteCulinary,
         cultureNarrative, updateNarrative, 
         cityStats, updateStat 
     } = useTourismStore();
@@ -28,7 +29,9 @@ const AdminCommandCenter = () => {
     const [activeTab, setActiveTab] = useState('places');
     const [isUpdating, setIsUpdating] = useState(false);
     const [isAdding, setIsAdding] = useState(false);
+    const [isAddingCulinary, setIsAddingCulinary] = useState(false);
     const [newPlace, setNewPlace] = useState({ name: '', category: 'Budaya', description: '', image: '', lat: -3.3, lng: 114.6 });
+    const [newCulinary, setNewCulinary] = useState({ name: '', category: 'Makanan Berat', priceRange: '', description: '', images: [''], isHalal: true, lat: -3.3, lng: 114.6 });
 
     // Security Check
     const handleLogin = (e) => {
@@ -57,6 +60,14 @@ const AdminCommandCenter = () => {
         setIsAdding(false);
         setNewPlace({ name: '', category: 'Budaya', description: '', image: '', lat: -3.3, lng: 114.6 });
         toast.success(`${newPlace.name} added successfully!`);
+    };
+
+    const handleAddCulinary = () => {
+        if (!newCulinary.name) return toast.error('Name is required');
+        addCulinary(newCulinary);
+        setIsAddingCulinary(false);
+        setNewCulinary({ name: '', category: 'Makanan Berat', priceRange: '', description: '', images: [''], isHalal: true, lat: -3.3, lng: 114.6 });
+        toast.success(`${newCulinary.name} added successfully!`);
     };
 
     if (!isAuthenticated) {
@@ -125,6 +136,7 @@ const AdminCommandCenter = () => {
                 <div className="space-y-4">
                     {[
                         { id: 'places', label: 'Tourism Spots', icon: MapPin },
+                        { id: 'culinary', label: 'Culinary Nodes', icon: ShieldCheck },
                         { id: 'narrative', label: 'Culture Narratives', icon: Type },
                         { id: 'stats', label: 'Modern Stats', icon: BarChart3 },
                     ].map((tab) => (
@@ -260,6 +272,117 @@ const AdminCommandCenter = () => {
                                             </div>
                                             <button 
                                                 onClick={() => deletePlace(place.id)}
+                                                className="p-4 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100"
+                                            >
+                                                <Trash2 size={16} />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </motion.div>
+                        )}
+
+                        {activeTab === 'culinary' && (
+                            <motion.div 
+                                key="culinary"
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -20 }}
+                                className="space-y-10"
+                            >
+                                <div className="flex justify-between items-center bg-brand-orange/5 p-6 rounded-2xl border border-brand-orange/10">
+                                    <div>
+                                        <h2 className="text-2xl font-serif font-bold text-white mb-1">Culinary Nodes</h2>
+                                        <p className="text-white/40 text-xs">Managing {culinary.length} Gastronomic assets.</p>
+                                    </div>
+                                    <button 
+                                        onClick={() => setIsAddingCulinary(!isAddingCulinary)}
+                                        className="bg-white text-black px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-meta flex items-center gap-2 hover:bg-brand-orange hover:text-white transition-all"
+                                    >
+                                        <Plus size={14} /> {isAddingCulinary ? 'Cancel' : 'Add Node'}
+                                    </button>
+                                </div>
+
+                                {isAddingCulinary && (
+                                    <div className="bg-white/10 border border-brand-orange/20 p-8 rounded-3xl space-y-6">
+                                        <h3 className="font-bold text-brand-orange uppercase text-xs tracking-meta">New Culinary Signature</h3>
+                                        <div className="grid md:grid-cols-2 gap-6">
+                                            <input 
+                                                placeholder="Dish Name" 
+                                                value={newCulinary.name}
+                                                onChange={e => setNewCulinary({...newCulinary, name: e.target.value})}
+                                                className="bg-black/50 border border-white/10 p-4 rounded-xl text-sm focus:outline-none focus:border-brand-orange" 
+                                            />
+                                            <input 
+                                                placeholder="Price Range" 
+                                                value={newCulinary.priceRange}
+                                                onChange={e => setNewCulinary({...newCulinary, priceRange: e.target.value})}
+                                                className="bg-black/50 border border-white/10 p-4 rounded-xl text-sm focus:outline-none focus:border-brand-orange" 
+                                            />
+                                            <select 
+                                                value={newCulinary.category}
+                                                onChange={e => setNewCulinary({...newCulinary, category: e.target.value})}
+                                                className="bg-black/50 border border-white/10 p-4 rounded-xl text-sm focus:outline-none focus:border-brand-orange"
+                                            >
+                                                <option value="Makanan Berat">Makanan Berat</option>
+                                                <option value="Camilan">Camilan</option>
+                                                <option value="Minuman">Minuman</option>
+                                            </select>
+                                            <input 
+                                                placeholder="Image URL" 
+                                                value={newCulinary.images[0]}
+                                                onChange={e => setNewCulinary({...newCulinary, images: [e.target.value]})}
+                                                className="bg-black/50 border border-white/10 p-4 rounded-xl text-sm focus:outline-none focus:border-brand-orange" 
+                                            />
+                                        </div>
+                                        <textarea 
+                                            placeholder="Description" 
+                                            value={newCulinary.description}
+                                            onChange={e => setNewCulinary({...newCulinary, description: e.target.value})}
+                                            className="w-full bg-black/50 border border-white/10 p-4 rounded-xl text-sm h-24" 
+                                        />
+                                        <button 
+                                            onClick={handleAddCulinary}
+                                            className="w-full bg-brand-orange py-4 rounded-xl font-bold uppercase text-xs tracking-meta"
+                                        >
+                                            Confirm Gastronomy Node
+                                        </button>
+                                    </div>
+                                )}
+
+                                <div className="grid gap-6">
+                                    {culinary.map((item) => (
+                                        <div key={item.id} className="bg-black/40 border border-white/5 p-6 rounded-2xl flex flex-col md:flex-row gap-8 items-start md:items-center group">
+                                            <div className="w-full md:w-24 h-24 rounded-xl overflow-hidden border border-white/10">
+                                                <img src={item.images?.[0]} alt={item.name} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" />
+                                            </div>
+                                            <div className="flex-1 space-y-4 w-full">
+                                                <div className="grid md:grid-cols-2 gap-4">
+                                                    <div className="space-y-1">
+                                                        <label className="text-[9px] font-mono uppercase text-white/20 tracking-meta">Dish Name</label>
+                                                        <input 
+                                                            type="text" 
+                                                            value={item.name} 
+                                                            onChange={(e) => updateCulinary(item.id, { name: e.target.value })}
+                                                            className="w-full bg-transparent border-b border-white/10 py-1 font-bold text-sm focus:outline-none focus:border-brand-orange transition-all"
+                                                        />
+                                                    </div>
+                                                    <div className="space-y-1">
+                                                        <label className="text-[9px] font-mono uppercase text-white/20 tracking-meta">Category</label>
+                                                        <select 
+                                                            value={item.category}
+                                                            onChange={(e) => updateCulinary(item.id, { category: e.target.value })}
+                                                            className="w-full bg-transparent border-b border-white/10 py-1 font-bold text-sm focus:outline-none focus:border-brand-orange transition-all"
+                                                        >
+                                                            <option className="bg-[#111]" value="Makanan Berat">Makanan Berat</option>
+                                                            <option className="bg-[#111]" value="Camilan">Camilan</option>
+                                                            <option className="bg-[#111]" value="Minuman">Minuman</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button 
+                                                onClick={() => deleteCulinary(item.id)}
                                                 className="p-4 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100"
                                             >
                                                 <Trash2 size={16} />
